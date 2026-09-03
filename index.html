@@ -151,6 +151,91 @@
     </button>
   </div>
 
+  <!-- Scenario 2: standard Vodafone payment modal -->
+  <div class="modal-overlay" id="standard-modal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="standard-modal-title">
+      <button class="modal-close" data-close-modal aria-label="Κλείσιμο">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+
+      <h2 id="standard-modal-title" class="modal-title">Πληρωμή λογαριασμού</h2>
+
+      <label class="modal-label" for="amount-input">Συμπλήρωσε το ποσό πληρωμής</label>
+      <div class="modal-input-wrap">
+        <input type="text" id="amount-input" class="modal-input" placeholder="Ποσό πληρωμής" inputmode="decimal">
+        <button type="button" class="modal-input-clear" id="amount-clear" aria-label="Καθαρισμός" hidden>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#6e6e6e" stroke-width="2"><path d="M5 5l14 14M19 5L5 19"/></svg>
+        </button>
+      </div>
+      <p class="modal-hint">Συμπλήρωσε το συνολικό οφειλόμενο ποσό ή μέρος αυτού.</p>
+
+      <div class="modal-warning" id="standard-modal-warning" hidden>
+        <div class="modal-warning__icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3.5L2 20.5h20L12 3.5z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.3" r="0.9" fill="#fff" stroke="none"/></svg>
+        </div>
+        <p>Η εμφάνιση του υπολοίπου για το συγκεκριμένο μητρώο δεν είναι δυνατή.</p>
+      </div>
+
+      <label class="modal-label modal-label--spaced">Επίλεξε τρόπο πληρωμής</label>
+      <button type="button" class="modal-select" id="standard-modal-select">
+        <span class="modal-select__left">
+          <svg viewBox="0 0 32 22" width="30" height="20"><rect x="1" y="1" width="30" height="20" rx="3" fill="#e8e8e8" stroke="#b5b5b5"/><rect x="1" y="6" width="30" height="4" fill="#8a8a8a"/><rect x="4" y="14" width="10" height="2.4" fill="#b5b5b5"/></svg>
+          Χρεωστική/ πιστωτική κάρτα
+        </span>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+
+      <button id="standard-modal-continue" class="btn btn--primary btn--modal" disabled>Συνέχεια</button>
+    </div>
+  </div>
+
+  <!-- Scenario 1: Flex installments via Snappi Bank -->
+  <div class="modal-overlay" id="flex-modal" aria-hidden="true">
+    <div class="modal-panel modal-panel--flex" role="dialog" aria-modal="true" aria-labelledby="flex-modal-title">
+      <button class="modal-close" data-close-modal aria-label="Κλείσιμο">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+
+      <div class="flex-brandbar">
+        <svg viewBox="0 0 48 48" width="26" height="26"><circle cx="24" cy="24" r="24" fill="#E60000"/><path d="M25.8 39C17.4 39 10.9 31.6 10.9 23.7 10.9 15 18.2 9 25.5 9c1 0 2 .1 2.7.4-6.6 1.4-11.2 7.1-11.2 13.8 0 .3 0 .6.1.9.6-.1 1.2-.2 1.9-.2 6.3 0 9.9 4.1 10.1 8.9-.2 3.9-2.4 6.2-3.3 6.2z" fill="#fff"/></svg>
+        <span class="flex-brandbar__x">×</span>
+        <span class="flex-brandbar__snappi">snappi</span>
+      </div>
+
+      <h2 id="flex-modal-title" class="modal-title modal-title--flex">Πληρωμή με δόσεις Flex</h2>
+      <p class="flex-sub">Ο λογαριασμός σου είναι επιλέξιμος για εξόφληση σε δόσεις μέσω <strong>Snappi Bank</strong>, σε συνεργασία με τη Vodafone.</p>
+
+      <div class="flex-frame">
+        <div class="flex-frame__chrome">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#4a4a4a" stroke-width="2"><rect x="5" y="10" width="14" height="9" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          Ασφαλής σύνδεση · snappibank.com
+        </div>
+        <div class="flex-frame__body">
+          <label class="modal-label" for="flex-amount">Ποσό προς εξόφληση</label>
+          <input type="text" id="flex-amount" class="modal-input" value="184,50 €" readonly>
+
+          <label class="modal-label modal-label--spaced" for="flex-installments">Αριθμός δόσεων</label>
+          <select id="flex-installments" class="flex-select">
+            <option>3 δόσεις × 61,50 €</option>
+            <option>6 δόσεις × 30,75 €</option>
+            <option selected>12 δόσεις × 15,38 €</option>
+            <option>24 δόσεις × 7,69 €</option>
+          </select>
+
+          <label class="modal-label modal-label--spaced">Στοιχεία κάρτας</label>
+          <input type="text" class="modal-input flex-card-input" placeholder="Αριθμός κάρτας">
+          <div class="flex-card-row">
+            <input type="text" class="modal-input" placeholder="ΜΜ/ΕΕ">
+            <input type="text" class="modal-input" placeholder="CVV">
+          </div>
+
+          <button id="flex-modal-continue" class="btn btn--flex">Ολοκλήρωση πληρωμής</button>
+          <p class="flex-frame__footer">Powered by <strong>snappi</strong> — τα δεδομένα της κάρτας σου δεν αποθηκεύονται από τη Vodafone.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
