@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Λύση RF — Σημειώσεις (Demo)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="print-body">
+
+  <div class="print-toolbar no-print">
+    <a href="index.html" class="view-switch-btn view-switch-btn--static">⇄ Αλλαγή προβολής</a>
+    <button type="button" class="btn btn--primary" id="print-btn">🖨️ Εκτύπωση / Αποθήκευση ως PDF</button>
+  </div>
+
+  <div class="bill-page notes-page">
+
+    <div class="notes-banner">Εσωτερική σημείωση παρουσίασης — δεν αποτελεί μέρος του λογαριασμού</div>
+
+    <h1 class="notes-title">Λύση: Κωδικός Πληρωμής (RF) για λογαριασμό &amp; δόση Flex</h1>
+
+    <p class="notes-lead">
+      Ένας κωδικός πληρωμής (RF) που δείχνει σε λογαριασμό συλλογής της τράπεζας-συνεργάτη, όχι της Vodafone.
+      Ο πελάτης πληρώνει μία φορά. Η τράπεζα κρατάει το σκέλος της δόσης (δικός της δανεισμός) και αποδίδει
+      στη Vodafone το σκέλος συνδρομής ως απλό merchant settlement — η Vodafone δεν αγγίζει ποτέ χρήματα
+      πίστωσης, οπότε μένει εκτός του ρυθμιστικού προβλήματος.
+    </p>
+    <p class="notes-lead">
+      Στον λογαριασμό: ένας κωδικός πληρωμής, αλλά ρητά διαχωρισμένη ανάλυση ποσού
+      (Vodafone / Τράπεζα) για λόγους διαφάνειας της Οδηγίας 2023/2225.
+    </p>
+
+    <h2 class="notes-subtitle">Ανοιχτά σημεία προς την τράπεζα</h2>
+    <ol class="notes-points">
+      <li><strong>Waterfall / προτεραιότητα σε μερική πληρωμή</strong> — ποιο σκέλος καλύπτεται πρώτο.</li>
+      <li><strong>Διαδικασία σε μη πληρωμή</strong> — ποιος ενεργεί (αναστολή γραμμής vs είσπραξη οφειλής) και πότε.</li>
+      <li><strong>Συχνότητα / cutoff reconciliation</strong> — πόσο γρήγορα μαθαίνει η Vodafone ποιο σκέλος πληρώθηκε.</li>
+    </ol>
+
+  </div>
+
+  <script src="print.js"></script>
+</body>
+</html>

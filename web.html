@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online πληρωμή λογαριασμού – Vodafone (Demo)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top utility bar -->
+  <div class="topbar">
+    <nav class="topbar__tabs">
+      <a href="#" class="topbar__tab topbar__tab--active">Ιδιώτες</a>
+      <a href="#" class="topbar__tab">Επαγγελματίες - Εταιρείες</a>
+      <a href="#" class="topbar__tab">Vodafone Network</a>
+    </nav>
+    <div class="topbar__right">
+      <a href="#" class="topbar__link">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9S9.5 5.5 12 3z"/></svg>
+        Visiting Greece
+      </a>
+      <span class="topbar__divider">|</span>
+      <a href="#" class="topbar__link">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="8.2" r="1.6" fill="currentColor" stroke="none"/><path d="M12 11.5v6M9.2 12.5l2.8-1 2.8 1"/></svg>
+        Προσβασιμότητα
+      </a>
+    </div>
+  </div>
+
+  <!-- Main header -->
+  <header class="header">
+    <a href="#" class="header__logo" aria-label="Vodafone">
+      <img src="vodafone-logo.png" width="40" height="40" alt="">
+    </a>
+    <nav class="header__nav">
+      <a href="#">Προγράμματα</a>
+      <a href="#">eShop</a>
+      <a href="#" class="active">Υποστήριξη</a>
+      <a href="#">My Vodafone</a>
+      <a href="#">Προνόμια</a>
+      <a href="#">Tech Heroes</a>
+    </nav>
+    <div class="header__actions">
+      <button class="icon-btn" aria-label="Αναζήτηση">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <a href="#" class="header__login">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 5-6 8-6s6.4 2 8 6"/></svg>
+        Είσοδος/Εγγραφή
+      </a>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="#">Αρχική</a>
+    <span class="breadcrumb__sep">›</span>
+    <a href="#">Υποστήριξη</a>
+    <span class="breadcrumb__sep">›</span>
+    <a href="#">Λογαριασμός</a>
+    <span class="breadcrumb__sep">›</span>
+    <span class="breadcrumb__current">Πληρωμή λογαριασμού</span>
+  </div>
+
+  <!-- Page content -->
+  <main class="page">
+    <h1 class="page__title">Online πληρωμή λογαριασμού</h1>
+
+    <div class="layout">
+
+      <!-- Payment card -->
+      <section class="card payment-card">
+        <h2 class="payment-card__heading">Επίλεξε τρόπο πληρωμής</h2>
+
+        <div class="radio-group" role="radiogroup" aria-label="Τρόπος πληρωμής">
+          <label class="radio">
+            <input type="radio" name="payment-method" id="method-phone" checked>
+            <span class="radio__dot"></span>
+            Με αριθμό τηλεφώνου
+          </label>
+          <label class="radio">
+            <input type="radio" name="payment-method" id="method-subscriber">
+            <span class="radio__dot"></span>
+            Με μητρώο συνδρομητή
+          </label>
+        </div>
+
+        <div class="field">
+          <input type="text" id="phone-input" class="field__input" placeholder="Συμπλήρωσε τον αριθμό τηλεφώνου" inputmode="tel">
+          <p class="field__hint">Συμπλήρωσε τον αριθμό κινητού ή σταθερού τηλεφώνου.</p>
+        </div>
+
+        <div class="payment-card__footer">
+          <button id="continue-btn" class="btn btn--primary" disabled>Συνέχεια</button>
+        </div>
+
+        <p class="demo-note">
+          Demo data — τηλέφωνο <code>6912345678</code> ή ΒΑ <code>123456789</code> ανοίγει το σενάριο Flex/Snappi· οποιαδήποτε άλλη τιμή ανοίγει το κανονικό flow.
+        </p>
+      </section>
+
+      <!-- Side cards -->
+      <aside class="side-cards">
+        <div class="card side-card">
+          <div class="side-card__body">
+            <h3>Χρειάζεσαι παράταση πληρωμής;</h3>
+            <a href="#" class="side-card__link">Ξεκίνα Chat τώρα <span aria-hidden="true">›</span></a>
+          </div>
+          <div class="side-card__icon">
+            <svg viewBox="0 0 64 64" width="48" height="48">
+              <circle cx="32" cy="32" r="32" fill="#E60000"/>
+              <circle cx="32" cy="27" r="12" fill="#fff"/>
+              <circle cx="27" cy="26" r="1.6" fill="#E60000"/>
+              <circle cx="37" cy="26" r="1.6" fill="#E60000"/>
+              <path d="M26 31c1.8 2 8.2 2 10 0" stroke="#E60000" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card side-card">
+          <div class="side-card__body">
+            <h3>Δες την ανάλυση του λογαριασμού σου</h3>
+            <a href="#" class="side-card__link">Ξεκίνα Chat τώρα <span aria-hidden="true">›</span></a>
+          </div>
+          <div class="side-card__icon">
+            <svg viewBox="0 0 64 64" width="44" height="48">
+              <path d="M14 6h28l8 8v44a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" fill="#E60000"/>
+              <path d="M42 6v8h8z" fill="#B30000"/>
+              <line x1="18" y1="26" x2="46" y2="26" stroke="#fff" stroke-width="2"/>
+              <line x1="18" y1="34" x2="46" y2="34" stroke="#fff" stroke-width="2"/>
+              <line x1="18" y1="42" x2="38" y2="42" stroke="#fff" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Floating chat widget -->
+  <div class="chat-widget">
+    <div class="chat-widget__tooltip">Πώς μπορώ να σε βοηθήσω;</div>
+    <button class="chat-widget__bubble" aria-label="Άνοιγμα chat">
+      <svg viewBox="0 0 64 64" width="40" height="40">
+        <circle cx="32" cy="32" r="32" fill="#E60000"/>
+        <circle cx="32" cy="27" r="12" fill="#fff"/>
+        <circle cx="27" cy="26" r="1.6" fill="#E60000"/>
+        <circle cx="37" cy="26" r="1.6" fill="#E60000"/>
+        <path d="M26 31c1.8 2 8.2 2 10 0" stroke="#E60000" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Backend-check loading overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-card">
+      <div class="loading-spinner"></div>
+      <p>Έλεγχος λογαριασμού…</p>
+    </div>
+  </div>
+
+  <!-- Scenario 2: standard Vodafone payment modal -->
+  <div class="modal-overlay" id="standard-modal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="standard-modal-title">
+      <button class="modal-close" data-close-modal aria-label="Κλείσιμο">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+
+      <h2 id="standard-modal-title" class="modal-title">Πληρωμή λογαριασμού</h2>
+
+      <label class="modal-label" for="amount-input">Συμπλήρωσε το ποσό πληρωμής</label>
+      <div class="modal-input-wrap">
+        <input type="text" id="amount-input" class="modal-input" placeholder="Ποσό πληρωμής" inputmode="decimal">
+        <button type="button" class="modal-input-clear" id="amount-clear" aria-label="Καθαρισμός" hidden>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#6e6e6e" stroke-width="2"><path d="M5 5l14 14M19 5L5 19"/></svg>
+        </button>
+      </div>
+      <p class="modal-hint">Συμπλήρωσε το συνολικό οφειλόμενο ποσό ή μέρος αυτού.</p>
+
+      <div class="modal-warning" id="standard-modal-warning" hidden>
+        <div class="modal-warning__icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3.5L2 20.5h20L12 3.5z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.3" r="0.9" fill="#fff" stroke="none"/></svg>
+        </div>
+        <p>Η εμφάνιση του υπολοίπου για το συγκεκριμένο μητρώο δεν είναι δυνατή.</p>
+      </div>
+
+      <label class="modal-label modal-label--spaced">Επίλεξε τρόπο πληρωμής</label>
+      <button type="button" class="modal-select" id="standard-modal-select">
+        <span class="modal-select__left">
+          <svg viewBox="0 0 32 22" width="30" height="20"><rect x="1" y="1" width="30" height="20" rx="3" fill="#e8e8e8" stroke="#b5b5b5"/><rect x="1" y="6" width="30" height="4" fill="#8a8a8a"/><rect x="4" y="14" width="10" height="2.4" fill="#b5b5b5"/></svg>
+          Χρεωστική/ πιστωτική κάρτα
+        </span>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+
+      <button id="standard-modal-continue" class="btn btn--primary btn--modal" disabled>Συνέχεια</button>
+    </div>
+  </div>
+
+  <!-- Scenario 1: Flex installments via Snappi Bank -->
+  <div class="modal-overlay" id="flex-modal" aria-hidden="true">
+    <div class="modal-panel modal-panel--flex" role="dialog" aria-modal="true" aria-labelledby="flex-modal-title">
+      <button class="modal-close" data-close-modal aria-label="Κλείσιμο">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+
+      <div class="flex-brandbar">
+        <img src="vodafone-logo.png" width="26" height="26" alt="">
+        <span class="flex-brandbar__x">×</span>
+        <span class="flex-brandbar__snappi">snappi</span>
+      </div>
+
+      <h2 id="flex-modal-title" class="modal-title modal-title--flex">Πληρωμή λογαριασμού &amp; δόσης Vodafone Flex</h2>
+      <p class="flex-sub">Πλήρωσε τον λογαριασμό της κινητής ή σταθερής σου σύνδεσης, καθώς και τη δόση σου από το πρόγραμμα <strong>Vodafone Flex</strong>, μέσω <strong>Snappi Bank</strong> σε συνεργασία με τη Vodafone.</p>
+
+      <div class="info-bubble-wrap">
+        <button type="button" class="info-bubble-trigger" data-info-trigger>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="8" r="0.8" fill="currentColor" stroke="none"/><path d="M12 11.5v5.2"/></svg>
+          Πώς λειτουργεί αυτό το σενάριο;
+        </button>
+        <div class="info-bubble" data-info-bubble>
+          Πρακτικά, γίνεται backend έλεγχος στο <strong>Siebel</strong> ότι υπάρχουν ενεργές δόσεις Flex, και μας φέρνει το iframe για πληρωμή σε περιβάλλον της Snappi.
+        </div>
+      </div>
+
+      <div class="flex-frame">
+        <div class="flex-frame__chrome">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#4a4a4a" stroke-width="2"><rect x="5" y="10" width="14" height="9" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          Ασφαλής σύνδεση · snappibank.com
+        </div>
+        <div class="flex-frame__body">
+
+          <!-- Step: amounts -->
+          <div class="flex-step" data-step="amounts">
+            <label class="modal-label" for="flex-bill-input">Ποσό λογαριασμού</label>
+            <input type="text" id="flex-bill-input" class="modal-input" placeholder="Ποσό πληρωμής" inputmode="decimal">
+            <p class="modal-hint">Συμπλήρωσε το συνολικό οφειλόμενο ποσό ή μέρος αυτού.</p>
+
+            <label class="modal-label modal-label--spaced" for="flex-installment-input">Ποσό δόσης Flex <span class="installment-badge" data-installment-badge hidden></span></label>
+            <input type="text" id="flex-installment-input" class="modal-input" placeholder="Ποσό δόσης" inputmode="decimal">
+            <p class="modal-hint">Συμπλήρωσε το ποσό της επόμενης δόσης σου.</p>
+
+            <button type="button" class="flex-learn-link" id="flex-learn-link">
+              Μάθε το ποσό οφειλής &amp; δόσης σου
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="8" r="0.8" fill="currentColor" stroke="none"/><path d="M12 11.5v5.2"/></svg>
+            </button>
+
+            <button type="button" id="flex-amounts-continue" class="btn btn--flex" disabled>Συνέχεια</button>
+            <button type="button" class="flex-step__back" id="flex-amounts-back">‹ Πίσω</button>
+          </div>
+
+          <!-- Step: SMS prompt — one code pulls both amounts -->
+          <div class="flex-step" data-step="sms-prompt" hidden>
+            <h3 class="flex-step__title" id="flex-sms-title">Υπόλοιπο λογαριασμού &amp; δόσης</h3>
+            <p class="flex-step__text" id="flex-sms-text">Θα χρειαστεί να συμπληρώσεις τον κωδικό μιας χρήσης που θα σου στείλουμε με SMS στο κινητό που έχεις εισάγει ή στην περίπτωση σταθερού στο κινητό επικοινωνίας σου.</p>
+            <button type="button" class="btn btn--flex" id="flex-send-otp">Αποστολή κωδικού</button>
+            <button type="button" class="btn btn--flex-outline" id="flex-skip-otp">Όχι, ευχαριστώ</button>
+            <button type="button" class="flex-step__back" id="flex-sms-back">‹ Πίσω</button>
+          </div>
+
+          <!-- Step: OTP confirmation -->
+          <div class="flex-step" data-step="otp" hidden>
+            <label class="modal-label" for="flex-otp-input">Κωδικός μιας χρήσης</label>
+            <input type="text" id="flex-otp-input" class="modal-input" placeholder="Συμπλήρωσε τον κωδικό" inputmode="numeric">
+            <p class="modal-hint">Στάλθηκε κωδικός με SMS στο κινητό σου.</p>
+            <button type="button" class="btn btn--flex" id="flex-confirm-otp" disabled>Επιβεβαίωση</button>
+            <button type="button" class="flex-step__back" id="flex-otp-back">‹ Πίσω</button>
+          </div>
+
+          <!-- Step: payment method -->
+          <div class="flex-step" data-step="payment" hidden>
+            <p class="flex-step__summary" id="flex-payment-summary">Πληρωμή ποσού: 0,00 €</p>
+
+            <div class="flex-method-options">
+              <label class="flex-method-card">
+                <input type="radio" name="flex-payment-method" value="card" checked>
+                <span class="flex-method-card__radio"></span>
+                <svg viewBox="0 0 32 22" width="30" height="20"><rect x="1" y="1" width="30" height="20" rx="3" fill="#e8e8e8" stroke="#b5b5b5"/><rect x="1" y="6" width="30" height="4" fill="#8a8a8a"/></svg>
+                Πληρωμή με κάρτα
+              </label>
+              <label class="flex-method-card">
+                <input type="radio" name="flex-payment-method" value="wallet">
+                <span class="flex-method-card__radio"></span>
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#262626" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16" cy="14.5" r="1.4" fill="#262626" stroke="none"/></svg>
+                Πληρωμή με Google Pay / Apple Pay
+              </label>
+            </div>
+
+            <div class="flex-card-fields" id="flex-card-fields">
+              <input type="text" class="modal-input flex-card-input" placeholder="Αριθμός κάρτας">
+              <div class="flex-card-row">
+                <input type="text" class="modal-input" placeholder="ΜΜ/ΕΕ">
+                <input type="text" class="modal-input" placeholder="CVV">
+              </div>
+            </div>
+
+            <div class="flex-wallet-note" id="flex-wallet-note" hidden>
+              Θα σου ζητηθεί επιβεβαίωση από τη συσκευή σου.
+            </div>
+
+            <button id="flex-modal-continue" class="btn btn--flex">Ολοκλήρωση πληρωμής</button>
+            <p class="flex-frame__footer">Τα δεδομένα της κάρτας σου δεν αποθηκεύονται από τη Vodafone.</p>
+            <button type="button" class="flex-step__back" id="flex-payment-back">‹ Πίσω</button>
+          </div>
+
+        </div>
+      </div>
+
+      <p class="flex-powered-footer">🔒 Powered by snappibank.com</p>
+    </div>
+  </div>
+
+  <a href="index.html" class="view-switch-btn">⇄ Αλλαγή προβολής</a>
+
+  <script src="web.js"></script>
+</body>
+</html>
