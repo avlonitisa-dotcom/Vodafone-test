@@ -233,13 +233,9 @@
 
           <!-- Step: amounts -->
           <div class="flex-step" data-step="amounts">
-            <label class="modal-label" for="flex-bill-input">Ποσό λογαριασμού</label>
-            <input type="text" id="flex-bill-input" class="modal-input" placeholder="Ποσό πληρωμής" inputmode="decimal">
-            <p class="modal-hint">Συμπλήρωσε το συνολικό οφειλόμενο ποσό ή μέρος αυτού.</p>
-
-            <label class="modal-label modal-label--spaced" for="flex-installment-input">Ποσό δόσης Flex <span class="installment-badge" data-installment-badge hidden></span></label>
-            <input type="text" id="flex-installment-input" class="modal-input" placeholder="Ποσό δόσης" inputmode="decimal">
-            <p class="modal-hint">Συμπλήρωσε το ποσό της επόμενης δόσης σου.</p>
+            <label class="modal-label" for="flex-amount-input">Ποσό πληρωμής</label>
+            <input type="text" id="flex-amount-input" class="modal-input" placeholder="Ποσό πληρωμής" inputmode="decimal">
+            <p class="modal-hint" id="flex-amount-hint">Το ποσό περιλαμβάνει τον λογαριασμό σου <strong>και</strong> τη δόση σου από το Vodafone Flex, μαζί.</p>
 
             <button type="button" class="flex-learn-link" id="flex-learn-link">
               Μάθε το ποσό οφειλής &amp; δόσης σου

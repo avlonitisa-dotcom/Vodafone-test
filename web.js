@@ -132,8 +132,8 @@ standardContinue.addEventListener('click', () => {
 });
 
 /* ---------- Scenario 1: Flex / Snappi modal ---------- */
-const flexBillInput = document.getElementById('flex-bill-input');
-const flexInstallmentInput = document.getElementById('flex-installment-input');
+const flexAmountInput = document.getElementById('flex-amount-input');
+const flexAmountHint = document.getElementById('flex-amount-hint');
 const flexAmountsContinue = document.getElementById('flex-amounts-continue');
 const flexOtpInput = document.getElementById('flex-otp-input');
 const flexConfirmOtp = document.getElementById('flex-confirm-otp');
@@ -150,7 +150,7 @@ const FLEX_PULL_VALUES = {
 /* Which Flex installment this is, out of how many total. */
 const FLEX_INSTALLMENT_INFO = { current: 3, total: 7 };
 
-const flexInstallmentBadge = document.querySelector('[data-installment-badge]');
+const FLEX_AMOUNT_DEFAULT_HINT = flexAmountHint.innerHTML;
 
 function showFlexStep(step) {
   document.querySelectorAll('.flex-step').forEach((el) => {
@@ -168,8 +168,7 @@ function formatAmount(n) {
 }
 
 function updateFlexAmountsContinueState() {
-  flexAmountsContinue.disabled = flexBillInput.value.trim().length === 0
-    && flexInstallmentInput.value.trim().length === 0;
+  flexAmountsContinue.disabled = flexAmountInput.value.trim().length === 0;
 }
 
 function toggleFlexPaymentMethodUI(method) {
@@ -180,22 +179,18 @@ function toggleFlexPaymentMethodUI(method) {
 }
 
 function resetFlexModal() {
-  flexBillInput.value = '';
-  flexBillInput.readOnly = false;
-  flexInstallmentInput.value = '';
-  flexInstallmentInput.readOnly = false;
+  flexAmountInput.value = '';
+  flexAmountInput.readOnly = false;
+  flexAmountHint.innerHTML = FLEX_AMOUNT_DEFAULT_HINT;
   flexAmountsContinue.disabled = true;
   flexOtpInput.value = '';
   flexConfirmOtp.disabled = true;
-  flexInstallmentBadge.hidden = true;
   document.querySelector('input[name="flex-payment-method"][value="card"]').checked = true;
   toggleFlexPaymentMethodUI('card');
   showFlexStep('amounts');
 }
 
-[flexBillInput, flexInstallmentInput].forEach((input) => {
-  input.addEventListener('input', updateFlexAmountsContinueState);
-});
+flexAmountInput.addEventListener('input', updateFlexAmountsContinueState);
 
 document.getElementById('flex-learn-link').addEventListener('click', () => {
   showFlexStep('sms-prompt');
@@ -243,12 +238,11 @@ flexConfirmOtp.addEventListener('click', () => {
     loadingOverlay.classList.remove('is-open');
     loadingOverlayText.textContent = 'Έλεγχος λογαριασμού…';
 
-    flexBillInput.value = FLEX_PULL_VALUES.bill;
-    flexBillInput.readOnly = true;
-    flexInstallmentInput.value = FLEX_PULL_VALUES.installment;
-    flexInstallmentInput.readOnly = true;
-    flexInstallmentBadge.textContent = FLEX_INSTALLMENT_INFO.current + '/' + FLEX_INSTALLMENT_INFO.total;
-    flexInstallmentBadge.hidden = false;
+    const total = parseAmount(FLEX_PULL_VALUES.bill) + parseAmount(FLEX_PULL_VALUES.installment);
+    flexAmountInput.value = formatAmount(total).replace(' €', '');
+    flexAmountInput.readOnly = true;
+    flexAmountHint.innerHTML = 'Περιλαμβάνει: λογαριασμός ' + FLEX_PULL_VALUES.bill + ' € + δόση '
+      + FLEX_INSTALLMENT_INFO.current + '/' + FLEX_INSTALLMENT_INFO.total + ' Flex ' + FLEX_PULL_VALUES.installment + ' €.';
     updateFlexAmountsContinueState();
     showFlexStep('amounts');
   }, 2000);
@@ -256,7 +250,7 @@ flexConfirmOtp.addEventListener('click', () => {
 
 flexAmountsContinue.addEventListener('click', () => {
   if (flexAmountsContinue.disabled) return;
-  const total = parseAmount(flexBillInput.value) + parseAmount(flexInstallmentInput.value);
+  const total = parseAmount(flexAmountInput.value);
   flexPaymentSummary.textContent = 'Πληρωμή ποσού: ' + formatAmount(total);
   showFlexStep('payment');
 });

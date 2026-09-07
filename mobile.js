@@ -153,13 +153,12 @@ mStandardConfirm.addEventListener('click', () => {
 });
 
 /* ---------- Sheet: Flex / Snappi payment ---------- */
-const mFlexBillInput = document.getElementById('m-flex-bill-input');
-const mFlexInstallmentInput = document.getElementById('m-flex-installment-input');
+const mFlexAmountInput = document.getElementById('m-flex-amount-input');
+const mFlexAmountHint = document.getElementById('m-flex-amount-hint');
 const mFlexAmountsContinue = document.getElementById('m-flex-amounts-continue');
 const mFlexPaymentSummary = document.getElementById('m-flex-payment-summary');
 const mFlexCardFields = document.getElementById('m-flex-card-fields');
 const mFlexWalletNote = document.getElementById('m-flex-wallet-note');
-const mFlexInstallmentBadge = document.querySelector('#m-sheet-flex [data-installment-badge]');
 
 /* Which Flex installment this is, out of how many total. */
 const FLEX_INSTALLMENT_INFO = { current: 3, total: 7 };
@@ -179,9 +178,10 @@ function toggleMobileFlexPaymentMethodUI(method) {
 
 function resetMobileFlexSheet() {
   /* Logged-in session — amounts are already known, no SMS/OTP step needed. */
-  mFlexBillInput.value = FLEX_PULL_VALUES.bill;
-  mFlexInstallmentInput.value = FLEX_PULL_VALUES.installment;
-  mFlexInstallmentBadge.textContent = FLEX_INSTALLMENT_INFO.current + '/' + FLEX_INSTALLMENT_INFO.total;
+  const total = parseAmount(FLEX_PULL_VALUES.bill) + parseAmount(FLEX_PULL_VALUES.installment);
+  mFlexAmountInput.value = formatAmount(total).replace(' €', '');
+  mFlexAmountHint.innerHTML = 'Περιλαμβάνει: λογαριασμός ' + FLEX_PULL_VALUES.bill + ' € + δόση '
+    + FLEX_INSTALLMENT_INFO.current + '/' + FLEX_INSTALLMENT_INFO.total + ' Flex ' + FLEX_PULL_VALUES.installment + ' €.';
   document.querySelector('input[name="m-flex-payment-method"][value="card"]').checked = true;
   toggleMobileFlexPaymentMethodUI('card');
   showMobileFlexStep('amounts');
@@ -189,7 +189,7 @@ function resetMobileFlexSheet() {
 
 mFlexAmountsContinue.addEventListener('click', () => {
   if (mFlexAmountsContinue.disabled) return;
-  const total = parseAmount(mFlexBillInput.value) + parseAmount(mFlexInstallmentInput.value);
+  const total = parseAmount(mFlexAmountInput.value);
   mFlexPaymentSummary.textContent = 'Πληρωμή ποσού: ' + formatAmount(total);
   showMobileFlexStep('payment');
 });

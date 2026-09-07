@@ -171,12 +171,9 @@
 
           <!-- Step: amounts (auto-filled — logged-in session, no SMS needed) -->
           <div class="m-flex-step" data-mstep="amounts">
-            <label class="modal-label" for="m-flex-bill-input">Ποσό λογαριασμού</label>
-            <input type="text" id="m-flex-bill-input" class="modal-input" readonly>
-
-            <label class="modal-label modal-label--spaced" for="m-flex-installment-input">Ποσό δόσης Flex <span class="installment-badge" data-installment-badge></span></label>
-            <input type="text" id="m-flex-installment-input" class="modal-input" readonly>
-            <p class="modal-hint">Τα ποσά αντλήθηκαν αυτόματα από τον λογαριασμό σου.</p>
+            <label class="modal-label" for="m-flex-amount-input">Ποσό πληρωμής</label>
+            <input type="text" id="m-flex-amount-input" class="modal-input" readonly>
+            <p class="modal-hint" id="m-flex-amount-hint">Τα ποσά αντλήθηκαν αυτόματα από τον λογαριασμό σου.</p>
 
             <button type="button" id="m-flex-amounts-continue" class="btn btn--flex">Συνέχεια</button>
           </div>
