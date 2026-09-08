@@ -895,7 +895,8 @@ a { text-decoration: none; color: inherit; }
 }
 
 .chooser__options {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
@@ -1310,7 +1311,7 @@ a { text-decoration: none; color: inherit; }
   .chat-widget__tooltip { display: none; }
   .modal-panel { padding: 56px 24px 32px; }
   .modal-close { right: 12px; }
-  .chooser__options { flex-direction: column; }
+  .chooser__options { grid-template-columns: 1fr; }
   .chooser__card { padding: 36px 24px; }
 }
 
