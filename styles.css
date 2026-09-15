@@ -1546,3 +1546,170 @@ a { text-decoration: none; color: inherit; }
   .bill-meta { grid-template-columns: 1fr 1fr; }
   .bill-stub__grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- My Vodafone (web logged-in) dashboard ---------- */
+.myvf-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.myvf-header h1 {
+  font-size: 30px;
+  font-weight: 400;
+  margin: 0;
+  color: var(--vf-black);
+}
+
+.myvf-header__afm {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--vf-grey-text);
+}
+
+.myvf-tabs {
+  display: flex;
+  gap: 32px;
+  margin: 28px 0 0;
+  border-bottom: 1px solid var(--vf-grey-border);
+}
+
+.myvf-tab {
+  padding: 0 0 14px;
+  font-size: 15px;
+  color: var(--vf-text);
+  border-bottom: 2px solid transparent;
+}
+
+.myvf-tab--active {
+  color: var(--vf-red);
+  font-weight: 700;
+  border-bottom-color: var(--vf-red);
+}
+
+.myvf-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 32px 0 20px;
+}
+
+.myvf-section-head h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--vf-black);
+}
+
+.myvf-select-btn {
+  background: #16707a;
+  color: #fff;
+  border: none;
+  border-radius: 22px;
+  padding: 12px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+}
+
+.myvf-select-btn:hover { background: #125a62; }
+
+.myvf-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.myvf-bill-card { padding: 28px; }
+
+.myvf-bill-card__row {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: var(--vf-text);
+}
+
+.myvf-bill-card__row strong { font-weight: 700; }
+
+.myvf-balance-label {
+  margin: 24px 0 6px;
+  font-size: 13px;
+  color: var(--vf-grey-text);
+}
+
+.myvf-balance-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.myvf-balance-amount { font-size: 32px; font-weight: 700; color: var(--vf-black); }
+
+.myvf-pay-btn {
+  background: var(--vf-black);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+}
+
+.myvf-pay-btn:hover { background: #000; }
+
+.myvf-links {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--vf-grey-border);
+  padding-top: 16px;
+}
+
+.myvf-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  font-size: 14px;
+  color: var(--vf-text);
+}
+
+.myvf-link:hover { color: var(--vf-red); }
+.myvf-link__icon { color: var(--vf-red); }
+
+.myvf-promo-card {
+  background: linear-gradient(135deg, #c40000, #7a0000);
+  color: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.myvf-promo-card h3 { font-size: 20px; font-weight: 700; margin: 0; }
+.myvf-promo-card p { font-size: 13px; line-height: 1.5; margin: 0; color: rgba(255,255,255,0.9); }
+
+.myvf-promo-btn {
+  align-self: flex-start;
+  background: #fff;
+  color: var(--vf-black);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .myvf-grid { grid-template-columns: 1fr; }
+  .myvf-tabs { gap: 20px; overflow-x: auto; }
+}
