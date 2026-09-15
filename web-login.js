@@ -1,33 +1,5 @@
-/* ---------- My Vodafone dashboard: demo persona ---------- */
-const MYVF_PERSONAS = {
-  normal: { registry: '1112647150', phone: '2294022862', balance: '120,00 €' },
-  flex: { registry: '9087654321', phone: '6912345678', balance: '29,50 €' },
-};
-
-let myvfPersona = 'normal';
-
-const myvfRegistry = document.getElementById('myvf-registry');
-const myvfPhone = document.getElementById('myvf-phone');
-const myvfBalance = document.getElementById('myvf-balance');
+/* ---------- My Vodafone dashboard ---------- */
 const myvfPayBtn = document.getElementById('myvf-pay-btn');
-
-function applyMyvfPersona() {
-  const data = MYVF_PERSONAS[myvfPersona];
-  myvfRegistry.textContent = data.registry;
-  myvfPhone.textContent = data.phone;
-  myvfBalance.textContent = data.balance;
-}
-applyMyvfPersona();
-
-document.querySelectorAll('.persona-btn').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.persona-btn').forEach((b) => b.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    myvfPersona = btn.dataset.persona;
-    applyMyvfPersona();
-  });
-});
-
 const loadingOverlay = document.getElementById('loading-overlay');
 
 myvfPayBtn.addEventListener('click', () => {

@@ -1643,7 +1643,13 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
+}
+
+.myvf-flex-note {
+  margin: 0 0 24px;
+  font-size: 13px;
+  color: var(--vf-grey-text);
 }
 
 .myvf-balance-amount { font-size: 32px; font-weight: 700; color: var(--vf-black); }
