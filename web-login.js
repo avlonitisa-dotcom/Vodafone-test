@@ -1,6 +1,5 @@
 /* ---------- My Vodafone dashboard ---------- */
 const myvfPayBtn = document.getElementById('myvf-pay-btn');
-const loadingOverlay = document.getElementById('loading-overlay');
 
 myvfPayBtn.addEventListener('click', () => {
   /* Already logged in — always go straight to the Snappi/Flex environment. */
@@ -75,17 +74,16 @@ standardContinue.addEventListener('click', () => {
   alert('Demo only — δεν υπάρχει πραγματικό backend.\nΠοσό: ' + amountInput.value);
 });
 
-/* ---------- Scenario 1: Flex / Snappi modal ---------- */
-const flexAmountInput = document.getElementById('flex-amount-input');
-const flexAmountHint = document.getElementById('flex-amount-hint');
+/* ---------- Scenario 1: Flex / Snappi modal (prefilled — already logged in) ---------- */
+const flexBillInput = document.getElementById('flex-bill-input');
+const flexInstallmentInput = document.getElementById('flex-installment-input');
 const flexAmountsContinue = document.getElementById('flex-amounts-continue');
-const flexOtpInput = document.getElementById('flex-otp-input');
-const flexConfirmOtp = document.getElementById('flex-confirm-otp');
+const flexInstallmentBadge = document.querySelector('[data-installment-badge]');
 const flexPaymentSummary = document.getElementById('flex-payment-summary');
 const flexCardFields = document.getElementById('flex-card-fields');
 const flexWalletNote = document.getElementById('flex-wallet-note');
 
-/* Demo pull values — no real backend, so a "successful" SMS code just fills these in. */
+/* Demo pull values — no real backend, so these are just filled in directly. */
 const FLEX_PULL_VALUES = {
   bill: '29,50',
   installment: '89,40',
@@ -93,8 +91,6 @@ const FLEX_PULL_VALUES = {
 
 /* Which Flex installment this is, out of how many total. */
 const FLEX_INSTALLMENT_INFO = { current: 3, total: 7 };
-
-const FLEX_AMOUNT_DEFAULT_HINT = flexAmountHint.innerHTML;
 
 function showFlexStep(step) {
   document.querySelectorAll('.flex-step').forEach((el) => {
@@ -111,10 +107,6 @@ function formatAmount(n) {
   return n.toLocaleString('el-GR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 }
 
-function updateFlexAmountsContinueState() {
-  flexAmountsContinue.disabled = flexAmountInput.value.trim().length === 0;
-}
-
 function toggleFlexPaymentMethodUI(method) {
   document.querySelectorAll('.flex-method-card').forEach((c) => c.classList.remove('is-selected'));
   document.querySelector(`input[name="flex-payment-method"][value="${method}"]`).closest('.flex-method-card').classList.add('is-selected');
@@ -123,78 +115,25 @@ function toggleFlexPaymentMethodUI(method) {
 }
 
 function resetFlexModal() {
-  flexAmountInput.value = '';
-  flexAmountInput.readOnly = false;
-  flexAmountHint.innerHTML = FLEX_AMOUNT_DEFAULT_HINT;
-  flexAmountsContinue.disabled = true;
-  flexOtpInput.value = '';
-  flexConfirmOtp.disabled = true;
+  /* Logged-in session — amounts are already known, no SMS/OTP step needed. */
+  flexBillInput.value = FLEX_PULL_VALUES.bill;
+  flexInstallmentInput.value = FLEX_PULL_VALUES.installment;
+  flexInstallmentBadge.textContent = FLEX_INSTALLMENT_INFO.current + '/' + FLEX_INSTALLMENT_INFO.total;
   document.querySelector('input[name="flex-payment-method"][value="card"]').checked = true;
   toggleFlexPaymentMethodUI('card');
   showFlexStep('amounts');
 }
 
-flexAmountInput.addEventListener('input', updateFlexAmountsContinueState);
-
-document.getElementById('flex-learn-link').addEventListener('click', () => {
-  showFlexStep('sms-prompt');
-});
-
 document.getElementById('flex-amounts-back').addEventListener('click', () => {
   closeModal(flexModal);
-});
-
-document.getElementById('flex-send-otp').addEventListener('click', () => {
-  flexOtpInput.value = '';
-  flexConfirmOtp.disabled = true;
-  showFlexStep('otp');
-});
-
-document.getElementById('flex-skip-otp').addEventListener('click', () => {
-  showFlexStep('amounts');
-});
-
-document.getElementById('flex-sms-back').addEventListener('click', () => {
-  showFlexStep('amounts');
-});
-
-document.getElementById('flex-otp-back').addEventListener('click', () => {
-  showFlexStep('sms-prompt');
 });
 
 document.getElementById('flex-payment-back').addEventListener('click', () => {
   showFlexStep('amounts');
 });
 
-flexOtpInput.addEventListener('input', () => {
-  flexConfirmOtp.disabled = flexOtpInput.value.trim().length === 0;
-});
-
-const loadingOverlayText = loadingOverlay.querySelector('p');
-
-flexConfirmOtp.addEventListener('click', () => {
-  if (flexConfirmOtp.disabled) return;
-  flexConfirmOtp.disabled = true;
-  loadingOverlayText.textContent = 'Άντληση ποσού οφειλής…';
-  loadingOverlay.classList.add('is-open');
-
-  setTimeout(() => {
-    loadingOverlay.classList.remove('is-open');
-    loadingOverlayText.textContent = 'Έλεγχος λογαριασμού…';
-
-    const total = parseAmount(FLEX_PULL_VALUES.bill) + parseAmount(FLEX_PULL_VALUES.installment);
-    flexAmountInput.value = formatAmount(total).replace(' €', '');
-    flexAmountInput.readOnly = true;
-    flexAmountHint.innerHTML = 'Περιλαμβάνει: λογαριασμός ' + FLEX_PULL_VALUES.bill + ' € + δόση '
-      + FLEX_INSTALLMENT_INFO.current + '/' + FLEX_INSTALLMENT_INFO.total + ' Flex ' + FLEX_PULL_VALUES.installment + ' €.';
-    updateFlexAmountsContinueState();
-    showFlexStep('amounts');
-  }, 2000);
-});
-
 flexAmountsContinue.addEventListener('click', () => {
-  if (flexAmountsContinue.disabled) return;
-  const total = parseAmount(flexAmountInput.value);
+  const total = parseAmount(flexBillInput.value) + parseAmount(flexInstallmentInput.value);
   flexPaymentSummary.textContent = 'Πληρωμή ποσού: ' + formatAmount(total);
   showFlexStep('payment');
 });

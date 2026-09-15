@@ -562,6 +562,7 @@ a { text-decoration: none; color: inherit; }
 
 .flex-step[hidden] { display: none; }
 .m-flex-step[hidden] { display: none; }
+.gate-step[hidden] { display: none; }
 
 .flex-learn-link {
   display: inline-flex;

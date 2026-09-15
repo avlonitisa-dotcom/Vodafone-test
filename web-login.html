@@ -92,14 +92,6 @@
     </button>
   </div>
 
-  <!-- Backend-check loading overlay -->
-  <div class="loading-overlay" id="loading-overlay">
-    <div class="loading-card">
-      <div class="loading-spinner"></div>
-      <p>Έλεγχος λογαριασμού…</p>
-    </div>
-  </div>
-
   <!-- Scenario 2: standard Vodafone payment modal -->
   <div class="modal-overlay" id="standard-modal" aria-hidden="true">
     <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="standard-modal-title">
@@ -171,37 +163,17 @@
         </div>
         <div class="flex-frame__body">
 
-          <!-- Step: amounts -->
+          <!-- Step: amounts (prefilled — logged-in session, no SMS needed) -->
           <div class="flex-step" data-step="amounts">
-            <label class="modal-label" for="flex-amount-input">Ποσό πληρωμής</label>
-            <input type="text" id="flex-amount-input" class="modal-input" placeholder="Ποσό πληρωμής" inputmode="decimal">
-            <p class="modal-hint" id="flex-amount-hint">Το ποσό περιλαμβάνει τον λογαριασμό σου <strong>και</strong> τη δόση σου από το Vodafone Flex, μαζί.</p>
+            <label class="modal-label" for="flex-bill-input">Ποσό λογαριασμού</label>
+            <input type="text" id="flex-bill-input" class="modal-input" readonly>
 
-            <button type="button" class="flex-learn-link" id="flex-learn-link">
-              Μάθε το ποσό οφειλής &amp; δόσης σου
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="8" r="0.8" fill="currentColor" stroke="none"/><path d="M12 11.5v5.2"/></svg>
-            </button>
+            <label class="modal-label modal-label--spaced" for="flex-installment-input">Ποσό δόσης Flex <span class="installment-badge" data-installment-badge></span></label>
+            <input type="text" id="flex-installment-input" class="modal-input" readonly>
+            <p class="modal-hint">Τα ποσά αντλήθηκαν αυτόματα από τον λογαριασμό σου.</p>
 
-            <button type="button" id="flex-amounts-continue" class="btn btn--flex" disabled>Συνέχεια</button>
+            <button type="button" id="flex-amounts-continue" class="btn btn--flex">Συνέχεια</button>
             <button type="button" class="flex-step__back" id="flex-amounts-back">‹ Πίσω</button>
-          </div>
-
-          <!-- Step: SMS prompt — one code pulls both amounts -->
-          <div class="flex-step" data-step="sms-prompt" hidden>
-            <h3 class="flex-step__title" id="flex-sms-title">Υπόλοιπο λογαριασμού &amp; δόσης</h3>
-            <p class="flex-step__text" id="flex-sms-text">Θα χρειαστεί να συμπληρώσεις τον κωδικό μιας χρήσης που θα σου στείλουμε με SMS στο κινητό που έχεις εισάγει ή στην περίπτωση σταθερού στο κινητό επικοινωνίας σου.</p>
-            <button type="button" class="btn btn--flex" id="flex-send-otp">Αποστολή κωδικού</button>
-            <button type="button" class="btn btn--flex-outline" id="flex-skip-otp">Όχι, ευχαριστώ</button>
-            <button type="button" class="flex-step__back" id="flex-sms-back">‹ Πίσω</button>
-          </div>
-
-          <!-- Step: OTP confirmation -->
-          <div class="flex-step" data-step="otp" hidden>
-            <label class="modal-label" for="flex-otp-input">Κωδικός μιας χρήσης</label>
-            <input type="text" id="flex-otp-input" class="modal-input" placeholder="Συμπλήρωσε τον κωδικό" inputmode="numeric">
-            <p class="modal-hint">Στάλθηκε κωδικός με SMS στο κινητό σου.</p>
-            <button type="button" class="btn btn--flex" id="flex-confirm-otp" disabled>Επιβεβαίωση</button>
-            <button type="button" class="flex-step__back" id="flex-otp-back">‹ Πίσω</button>
           </div>
 
           <!-- Step: payment method -->
