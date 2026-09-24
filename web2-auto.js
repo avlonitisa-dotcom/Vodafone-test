@@ -1,4 +1,5 @@
 /* ---------- Self-playing demo: drives the real page controls ---------- */
+(function () {
 
 /* Timing helpers (pause-aware) */
 let paused = false;
@@ -177,3 +178,5 @@ setTimeout(() => {
   autoPlayBtn.textContent = '⏸ Παύση';
   runSequence();
 }, 800);
+
+})();
