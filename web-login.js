@@ -143,5 +143,12 @@ document.querySelectorAll('input[name="flex-payment-method"]').forEach((radio) =
 });
 
 document.getElementById('flex-modal-continue').addEventListener('click', () => {
-  alert('Demo only — δεν υπάρχει πραγματικό backend.\nΕξομοίωση πληρωμής μέσω Snappi Bank.');
+  const total = parseAmount(flexBillInput.value) + parseAmount(flexInstallmentInput.value);
+  document.getElementById('flex-success-desc').textContent =
+    'Πληρώθηκαν ' + formatAmount(total) + ' (λογαριασμός & δόση) μέσω Snappi Bank.';
+  showFlexStep('success');
+});
+
+document.getElementById('flex-success-close').addEventListener('click', () => {
+  closeModal(flexModal);
 });
