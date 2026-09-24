@@ -289,10 +289,10 @@
             </div>
 
             <div class="flex-card-fields" id="flex-card-fields">
-              <input type="text" class="modal-input flex-card-input" placeholder="Αριθμός κάρτας">
+              <input type="text" id="flex-card-number" class="modal-input flex-card-input" placeholder="Αριθμός κάρτας">
               <div class="flex-card-row">
-                <input type="text" class="modal-input" placeholder="ΜΜ/ΕΕ">
-                <input type="text" class="modal-input" placeholder="CVV">
+                <input type="text" id="flex-card-expiry" class="modal-input" placeholder="ΜΜ/ΕΕ">
+                <input type="text" id="flex-card-cvv" class="modal-input" placeholder="CVV">
               </div>
             </div>
 
@@ -306,6 +306,16 @@
             <button type="button" class="flex-step__back" id="flex-payment-back">‹ Πίσω</button>
           </div>
 
+          <!-- Step: success -->
+          <div class="flex-step" data-step="success" hidden>
+            <div class="flex-success">
+              <div class="flex-success__icon">✓</div>
+              <p class="flex-success__title">Η πληρωμή ολοκληρώθηκε</p>
+              <p class="flex-success__desc" id="flex-success-desc">Ο λογαριασμός και η δόση σου πληρώθηκαν μέσω Snappi Bank.</p>
+            </div>
+            <button type="button" id="flex-success-close" class="btn btn--flex">Κλείσιμο</button>
+          </div>
+
         </div>
       </div>
 
@@ -315,6 +325,12 @@
 
   <a href="index.html" class="view-switch-btn">⇄ Αλλαγή προβολής</a>
 
+  <div class="auto-cursor" id="auto-cursor"></div>
+  <div class="auto-controls">
+    <button type="button" id="auto-play-btn" class="primary">⏸ Παύση</button>
+  </div>
+
   <script src="web2.js"></script>
+  <script src="web2-auto.js"></script>
 </body>
 </html>

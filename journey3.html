@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer Journey – Κατάστημα (Flex × Snappi)</title>
+<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand:#E60000; --brand-2:#00A6A6; --ink:#1d1b2c; --muted:#6b6880;
+    --bg:#f3f1fa; --card:#ffffff; --ok:#17a34a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:"Commissioner",system-ui,sans-serif;color:var(--ink);
+       display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:16px}
+  h1{font-size:clamp(18px,2.4vw,28px);margin:4px 0 2px;font-weight:800;text-align:center}
+  h1 span{color:var(--brand)}
+  h1 span.s{color:var(--brand-2)}
+  .subhead{color:var(--muted);font-size:clamp(12px,1.4vw,15px);text-align:center;margin:0 0 12px}
+  .wrap{width:100%;max-width:1100px}
+  .stage{position:relative;width:100%;aspect-ratio:1000/560;border-radius:18px;overflow:hidden;
+         box-shadow:0 12px 40px rgba(40,20,90,.18);container-type:inline-size;background:#cfe8ff}
+  .stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+  /* ----- people ----- */
+  #cust{transition:transform 1s linear}
+  .leg,.arm{transform-box:fill-box;transform-origin:50% 0}
+  .walking .leg.l{animation:swing .45s ease-in-out infinite alternate}
+  .walking .leg.r{animation:swing .45s ease-in-out infinite alternate-reverse}
+  .walking .arm.l{animation:swing .45s ease-in-out infinite alternate-reverse}
+  .walking .arm.r{animation:swing .45s ease-in-out infinite alternate}
+  .walking .bob{animation:bob .225s ease-in-out infinite alternate}
+  @keyframes swing{from{transform:rotate(-22deg)}to{transform:rotate(22deg)}}
+  @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+  .mouth-happy{opacity:0;transition:opacity .3s}
+  .happy .mouth-happy{opacity:1}.happy .mouth-norm{opacity:0}
+  #advisor .wave{transform-box:fill-box;transform-origin:50% 100%}
+  #advisor.waving .wave{animation:wave .4s ease-in-out 4 alternate}
+  @keyframes wave{from{transform:rotate(-15deg)}to{transform:rotate(20deg)}}
+
+  #door{transform-box:fill-box;transform-origin:0 50%;transition:transform .7s ease}
+  #door.open{transform:scaleX(.08)}
+  #flexBox{transition:transform 1.1s cubic-bezier(.5,0,.3,1)}
+  #flexGlow{opacity:0;transition:opacity .4s}
+  #flexBox.glow #flexGlow{opacity:1;animation:pulse 1s ease-in-out infinite alternate}
+  @keyframes pulse{from{transform:scale(1)}to{transform:scale(1.15)}}
+  #flexGlow{transform-box:fill-box;transform-origin:center}
+  #handFlex{opacity:0;transition:opacity .4s, transform .3s;transform-box:fill-box;transform-origin:center}
+  #cust.holding #handFlex{opacity:1}
+  #posScreen{transition:fill .4s}
+
+  /* ----- phone-in-hand (Snappi self-service) ----- */
+  #custPhone{opacity:0;transition:opacity .4s}
+  #cust.onphone #custPhone{opacity:1}
+  #cust.onphone .arm.r{animation:none;transform:rotate(-60deg)}
+
+  .snappi-float{position:absolute;opacity:0;transform:translateY(8px) scale(.9);
+        transition:opacity .35s, transform .35s;pointer-events:none;z-index:6;text-align:center}
+  .snappi-float.show{opacity:1;transform:none}
+  .snappi-float .ring{width:8cqw;height:8cqw;border-radius:50%;border:.6cqw solid #d8f3f3;
+        border-top-color:var(--brand-2);margin:0 auto .5cqw;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .snappi-float .lbl{background:#fff;border-radius:1cqw;padding:.4cqw 1cqw;font-size:clamp(9px,1.3cqw,13px);
+        font-weight:800;color:var(--brand-2);box-shadow:0 .4cqw 1.2cqw rgba(30,10,80,.2);display:inline-block}
+  .snappi-float .clock{display:inline-block;background:#fff;border-radius:1cqw;padding:.35cqw 1cqw;margin-top:.5cqw;
+        font-size:clamp(8px,1.1cqw,12px);color:var(--muted);font-weight:700;box-shadow:0 .3cqw 1cqw rgba(30,10,80,.15);white-space:nowrap}
+
+  .qr{position:absolute;width:7cqw;height:7cqw;background:#fff;border-radius:.8cqw;padding:.6cqw;
+      box-shadow:0 .5cqw 1.6cqw rgba(30,10,80,.25);opacity:0;transform:scale(.4);
+      transition:opacity .4s, transform .5s cubic-bezier(.3,1.6,.5,1);z-index:6}
+  .qr.show{opacity:1;transform:scale(1)}
+  .qr svg{width:100%;height:100%}
+
+  /* ----- zoom to agent's screen ----- */
+  .zoom-backdrop{position:absolute;inset:0;background:rgba(18,16,30,0);pointer-events:none;transition:background .5s;z-index:7}
+  .zoom-backdrop.show{background:rgba(18,16,30,.5)}
+  .screen-zoom{position:absolute;left:50%;top:44%;width:10cqw;height:7cqw;
+        transform:translate(-50%,-50%) scale(.25);transform-origin:center;opacity:0;
+        transition:width .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1), opacity .5s, transform .6s cubic-bezier(.4,0,.2,1);
+        pointer-events:none;z-index:8;border-radius:.9cqw;overflow:hidden;box-shadow:0 1.2cqw 3cqw rgba(0,0,0,.4)}
+  .screen-zoom.show{width:66cqw;height:42cqw;opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .screen-zoom__chrome{height:15%;background:#2b2940;display:flex;align-items:center;gap:.6cqw;padding:0 1.4cqw;transition:background .4s}
+  .screen-zoom__chrome.snappi{background:#0a6e6e}
+  .screen-zoom__chrome .screen-zoom__tag{margin-left:auto}
+  .screen-zoom__dot{width:.7cqw;height:.7cqw;border-radius:50%;background:#6b6880;flex:none}
+  .screen-zoom__url{color:#d8d5e6;font-size:clamp(9px,1.15cqw,13px);margin-left:.8cqw;font-weight:600;transition:color .4s}
+  .screen-zoom__body{height:85%;background:#fff;padding:1.6cqw 2.2cqw;overflow:hidden}
+  .screen-zoom__bullet{display:flex;gap:1cqw;align-items:flex-start;margin:1.1cqw 0;opacity:0;transform:translateX(-12px);
+        transition:opacity .45s, transform .45s}
+  .screen-zoom__bullet.show{opacity:1;transform:none}
+  .screen-zoom__bullet .n{flex:none;width:1.7em;height:1.7em;border-radius:50%;background:var(--brand);color:#fff;
+        font-weight:800;display:grid;place-items:center;font-size:clamp(9px,1.3cqw,15px)}
+  .screen-zoom__bullet.snappi .n{background:var(--brand-2)}
+  .screen-zoom__bullet.open .n{background:#e0a100}
+  .screen-zoom__bullet b{display:block;font-size:clamp(9.5px,1.35cqw,15px);color:var(--ink)}
+  .screen-zoom__bullet span{color:var(--muted);font-size:clamp(8.5px,1.15cqw,13px);line-height:1.4}
+  .screen-zoom__bullet.open span{color:#8a6400}
+  .screen-zoom__body--split{display:flex;align-items:center;gap:1.8cqw}
+  .screen-zoom__bullets{flex:1;min-width:0}
+  .screen-zoom__qr{flex:none;width:17cqw;text-align:center;opacity:0;transform:scale(.5);
+        transition:opacity .4s, transform .45s cubic-bezier(.3,1.6,.5,1)}
+  .screen-zoom__qr.show{opacity:1;transform:scale(1)}
+  .screen-zoom__qr svg{width:100%;height:100%;background:#fff;border-radius:.9cqw;padding:.9cqw;border:.3cqw solid var(--brand-2);box-shadow:0 .6cqw 1.8cqw rgba(10,110,110,.3)}
+  .screen-zoom__qr-lbl{display:block;margin-top:.8cqw;font-size:clamp(9.5px,1.3cqw,14px);font-weight:800;color:var(--brand-2)}
+  .screen-zoom__tag{display:inline-block;font-size:clamp(7.5px,1cqw,11px);font-weight:800;text-transform:uppercase;letter-spacing:.04em;
+        padding:.3em .8em;border-radius:999px}
+  .screen-zoom__tag.bau{background:#ffe1e1;color:var(--brand)}
+  .screen-zoom__tag.new{background:#d6f3f3;color:#0a7a7a}
+  .screen-zoom__tag.open{background:#fff2cc;color:#8a6400;margin:.5cqw 0 0;display:inline-block}
+
+  /* ----- speech bubbles ----- */
+  .bubble{position:absolute;max-width:34cqw;background:#fff;color:var(--ink);border-radius:1.6cqw;
+          padding:1.1cqw 1.5cqw;font-size:clamp(11px,1.75cqw,19px);line-height:1.35;font-weight:600;
+          box-shadow:0 .6cqw 2cqw rgba(30,10,80,.22);opacity:0;transform:scale(.6) translateY(10px);
+          transition:opacity .3s, transform .35s cubic-bezier(.3,1.6,.5,1);pointer-events:none;z-index:5}
+  .bubble.show{opacity:1;transform:scale(1) translateY(0)}
+  .bubble .who{display:block;font-size:.72em;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2em}
+  .bubble.cust .who{color:var(--brand-2)} .bubble.adv .who{color:var(--brand)}
+  .bubble::after{content:"";position:absolute;bottom:-1.1cqw;width:0;height:0;
+          border-left:1.1cqw solid transparent;border-right:1.1cqw solid transparent;border-top:1.2cqw solid #fff}
+  .bubble.tail-left::after{left:1.8cqw}
+  .bubble.tail-right::after{right:1.8cqw}
+  .bubble.thought{border-radius:3cqw;font-style:italic;background:#fffdf5}
+  .bubble.thought::after{border:none;width:1.2cqw;height:1.2cqw;border-radius:50%;background:#fffdf5;bottom:-1.8cqw;
+          box-shadow:-.9cqw 1.3cqw 0 -.25cqw #fffdf5}
+
+  /* ----- info card ----- */
+  .card{position:absolute;left:2cqw;top:3cqw;width:28cqw;background:var(--card);border-radius:1.6cqw;
+        padding:1.4cqw 1.6cqw;box-shadow:0 .8cqw 2.4cqw rgba(30,10,80,.25);font-size:clamp(10px,1.5cqw,16px);
+        opacity:0;transform:translateX(-20px);transition:all .45s ease;z-index:4;border-top:.5cqw solid var(--brand)}
+  .card.show{opacity:1;transform:none}
+  .card.snappi{border-top-color:var(--brand-2)}
+  .card h3{margin:0 0 .6em;font-size:1.15em;color:var(--brand);display:flex;align-items:center;gap:.4em}
+  .card.snappi h3{color:var(--brand-2)}
+  .card ul{list-style:none;margin:0;padding:0}
+  .card li{display:flex;align-items:center;gap:.55em;margin:.45em 0;opacity:.35;transition:opacity .3s}
+  .card li .chk{flex:none;width:1.4em;height:1.4em;border-radius:50%;border:2px solid #cfcadf;display:grid;place-items:center;
+                color:#fff;font-size:.8em;font-weight:800;transition:all .3s}
+  .card li.done{opacity:1}
+  .card li.done .chk{background:var(--ok);border-color:var(--ok)}
+  .card .tag{display:inline-block;font-size:.62em;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+        padding:.25em .7em;border-radius:999px;margin-top:.8em;background:#F2F2F2;color:var(--muted)}
+  .card.snappi .tag{background:#d6f3f3;color:#0a7a7a}
+
+  /* ----- confetti ----- */
+  .conf{position:absolute;top:-3%;width:1cqw;height:1.5cqw;border-radius:2px;z-index:6;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(62cqw) rotate(720deg)}}
+
+  /* ----- pause: freeze looping CSS animations ----- */
+  .stage.paused .leg, .stage.paused .arm, .stage.paused .bob,
+  .stage.paused .wave, .stage.paused #flexGlow, .stage.paused .ring, .stage.paused .conf{
+    animation-play-state:paused!important}
+
+  /* ----- end badge (top-right, non-blocking) ----- */
+  .end-badge{position:absolute;top:2cqw;right:2cqw;display:flex;align-items:center;gap:.9cqw;
+        background:#fff;border-radius:999px;padding:.6cqw 1cqw .6cqw 1.3cqw;box-shadow:0 .6cqw 1.8cqw rgba(30,10,80,.28);
+        z-index:10;opacity:0;transform:translateY(-10px);pointer-events:none;transition:opacity .35s, transform .35s}
+  .end-badge.show{opacity:1;transform:none;pointer-events:auto}
+  .end-badge__msg{font-size:clamp(9px,1.2cqw,13px);font-weight:800;color:var(--ok);white-space:nowrap}
+  .end-badge__btn{border:none;background:var(--brand);color:#fff;font:800 clamp(9px,1.2cqw,13px) "Commissioner",sans-serif;
+        padding:.55cqw 1.15cqw;border-radius:999px;cursor:pointer;white-space:nowrap}
+  .end-badge__btn:hover{filter:brightness(.95)}
+
+  /* ----- caption + stepper + controls ----- */
+  .caption{margin:14px 0 6px;text-align:center;min-height:2.6em}
+  .caption .num{display:inline-block;background:var(--brand);color:#fff;border-radius:999px;padding:2px 12px;
+                font-weight:800;font-size:14px;margin-bottom:4px}
+  .caption .num.new{background:var(--brand-2)}
+  .caption .title{font-size:clamp(17px,2.2vw,24px);font-weight:800}
+  .caption .desc{color:var(--muted);font-size:clamp(13px,1.5vw,16px)}
+  .legend{display:flex;justify-content:center;gap:18px;margin:6px 0 4px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .legend i.bau{background:var(--brand)}
+  .legend i.new{background:var(--brand-2)}
+  .legend i.open{background:#e0a100}
+  .stepper{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}
+  .stepper button{flex:1;min-width:70px;border:none;background:#e2def0;height:auto;padding:8px 2px 6px;border-radius:10px;cursor:pointer;
+                  font:600 clamp(9px,1.1vw,13px) "Commissioner",sans-serif;color:var(--muted);position:relative;overflow:hidden;
+                  border-bottom:3px solid #cfc8e8}
+  .stepper button.tag-new{border-bottom-color:#9fdada}
+  .stepper button.done{background:#d6cdfa;color:var(--brand)}
+  .stepper button.active{background:var(--brand);color:#fff;border-bottom-color:var(--brand)}
+  .stepper button.active.tag-new{background:var(--brand-2);border-bottom-color:var(--brand-2)}
+  .page-head{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:2px}
+  .page-logo{width:40px;height:40px;object-fit:contain;flex:none}
+  .controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .controls button{border:none;background:#fff;color:var(--ink);font:700 15px "Commissioner",sans-serif;
+                   padding:10px 18px;border-radius:12px;cursor:pointer;box-shadow:0 2px 8px rgba(40,20,90,.12)}
+  .controls button.primary{background:var(--brand);color:#fff;min-width:130px}
+  .controls button:hover{filter:brightness(.95)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-head">
+    <img class="page-logo" src="data:image/png;base64,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" alt="Vodafone" width="40" height="40">
+    <h1>Το ταξίδι στο κατάστημα — <span>Vodafone</span> Flex × <span class="s">Snappi</span></h1>
+  </div>
+  <p class="subhead">Το πραγματικό shop journey — από την άφιξη στο κατάστημα ως την παραλαβή και την πληρωμή</p>
+
+  <div class="stage" id="stage">
+    <svg viewBox="0 0 1000 560" aria-label="Κατάστημα Vodafone">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe1ff"/><stop offset="1" stop-color="#e9f5ff"/></linearGradient>
+        <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9f1ff" stop-opacity=".9"/><stop offset="1" stop-color="#9fd3f5" stop-opacity=".75"/></linearGradient>
+        <radialGradient id="glowG"><stop offset="0" stop-color="#5ce0e0" stop-opacity=".9"/><stop offset="1" stop-color="#00A6A6" stop-opacity="0"/></radialGradient>
+        <clipPath id="vfClip"><circle cx="0" cy="0" r="24"/></clipPath>
+      </defs>
+      <!-- sky & street -->
+      <rect width="1000" height="560" fill="url(#sky)"/>
+      <circle cx="120" cy="80" r="38" fill="#FFD66B"/>
+      <g fill="#fff" opacity=".9"><ellipse cx="230" cy="120" rx="46" ry="16"/><ellipse cx="260" cy="108" rx="30" ry="16"/></g>
+      <!-- tree -->
+      <rect x="150" y="360" width="14" height="110" rx="4" fill="#8a5a3b"/>
+      <circle cx="157" cy="340" r="44" fill="#5cbf6a"/><circle cx="130" cy="365" r="28" fill="#4fae5d"/><circle cx="185" cy="362" r="28" fill="#4fae5d"/>
+      <!-- sidewalk -->
+      <rect y="470" width="1000" height="90" fill="#c9c6d6"/>
+      <rect y="470" width="1000" height="8" fill="#b3afc4"/>
+
+      <!-- building -->
+      <rect x="300" y="50" width="700" height="420" fill="#F2F2F2"/>
+      <!-- interior back wall -->
+      <rect x="370" y="120" width="630" height="350" fill="#FFFFFF"/>
+      <rect x="370" y="440" width="630" height="30" fill="#E0E0E0"/>
+      <!-- sign -->
+      <rect x="300" y="50" width="700" height="70" fill="#E60000"/>
+      <text x="640" y="97" text-anchor="middle" font-family="Commissioner,sans-serif" font-size="34" font-weight="800" fill="#fff" letter-spacing="4">VODAFONE</text>
+      <g transform="translate(905,85)" clip-path="url(#vfClip)">
+        <circle cx="0" cy="0" r="24" fill="#E60000"/>
+        <circle cx="14" cy="17" r="19" fill="#fff"/>
+      </g>
+
+      <!-- shelf with products -->
+      <rect x="420" y="300" width="220" height="10" rx="3" fill="#4a4a4a"/>
+      <rect x="420" y="220" width="220" height="10" rx="3" fill="#4a4a4a"/>
+      <g>
+        <rect x="435" y="188" width="30" height="32" rx="4" fill="#9ad0ff"/>
+        <rect x="475" y="194" width="26" height="26" rx="4" fill="#ffc6d9"/>
+        <rect x="590" y="186" width="34" height="34" rx="4" fill="#c7f0c9"/>
+        <rect x="435" y="270" width="34" height="30" rx="4" fill="#ffe3a3"/>
+        <rect x="480" y="264" width="28" height="36" rx="4" fill="#d6ccff"/>
+        <rect x="600" y="268" width="28" height="32" rx="4" fill="#9ad0ff"/>
+      </g>
+      <!-- shelf sign -->
+      <g transform="translate(465,148)">
+        <rect x="0" y="0" width="170" height="34" rx="4" fill="#fff" stroke="#E60000" stroke-width="2"/>
+        <text x="85" y="22" text-anchor="middle" font-family="Commissioner,sans-serif" font-size="13" font-weight="800" fill="#E60000">Πάρε συσκευή με Flex</text>
+      </g>
+      <!-- poster -->
+      <rect x="700" y="150" width="120" height="100" rx="8" fill="#fff" stroke="#DCDCDC" stroke-width="3"/>
+      <text x="760" y="192" text-anchor="middle" font-family="Commissioner,sans-serif" font-size="22" font-weight="800" fill="#E60000">Vodafone</text>
+      <text x="760" y="216" text-anchor="middle" font-family="Commissioner,sans-serif" font-size="24" font-weight="800" fill="#00A6A6">Flex</text>
+      <text x="760" y="236" text-anchor="middle" font-family="Commissioner,sans-serif" font-size="11" font-weight="600" fill="#6b6880">σε δόσεις, εύκολα</text>
+      <!-- plant -->
+      <rect x="945" y="420" width="34" height="50" rx="4" fill="#FF7A1A"/>
+      <path d="M962 420 C940 380 930 370 945 350 C955 375 960 390 962 420 C965 385 975 360 990 350 C995 380 980 400 962 420Z" fill="#4fae5d"/>
+      <!-- waiting bench (right side, for the Snappi self-service step) -->
+      <rect x="855" y="452" width="90" height="10" rx="3" fill="#4a4a4a"/>
+      <rect x="862" y="430" width="10" height="24" rx="3" fill="#4a4a4a"/>
+      <rect x="928" y="430" width="10" height="24" rx="3" fill="#4a4a4a"/>
+
+      <!-- advisor (behind counter) -->
+      <g id="advisor" transform="translate(830,0)">
+        <rect x="-24" y="318" width="48" height="90" rx="16" fill="#E60000"/>
+        <rect x="6" y="335" width="14" height="9" rx="2" fill="#fff"/>
+        <g class="wave"><rect x="20" y="300" width="10" height="44" rx="5" fill="#f2c7a5"/></g>
+        <circle cx="0" cy="292" r="24" fill="#f2c7a5"/>
+        <path d="M-25 288 C-26 262 26 258 25 288 C18 276 -12 270 -25 288Z" fill="#3b2a22"/>
+        <path d="M-25 288 C-30 300 -26 318 -20 322 L-18 290Z" fill="#3b2a22"/>
+        <circle cx="-8" cy="293" r="2.6" fill="#1d1b2c"/><circle cx="8" cy="293" r="2.6" fill="#1d1b2c"/>
+        <path d="M-7 303 Q0 309 7 303" stroke="#1d1b2c" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- counter -->
+      <rect x="690" y="378" width="250" height="92" rx="6" fill="#E60000"/>
+      <rect x="690" y="372" width="250" height="14" rx="5" fill="#B30000"/>
+      <text x="815" y="432" text-anchor="middle" font-family="Commissioner,sans-serif" font-size="16" font-weight="700" fill="#fff" opacity=".9">ΕΞΥΠΗΡΕΤΗΣΗ</text>
+      <!-- POS / tablet -->
+      <rect x="870" y="340" width="44" height="32" rx="4" fill="#2b2940"/>
+      <rect id="posScreen" x="874" y="344" width="36" height="22" rx="2" fill="#6b6880"/>
+
+      <!-- FLEX product -->
+      <g id="flexBox" style="transform:translate(560px,262px)">
+        <circle id="flexGlow" cx="20" cy="18" r="46" fill="url(#glowG)"/>
+        <rect x="0" y="0" width="40" height="38" rx="6" fill="#E60000"/>
+        <rect x="0" y="0" width="40" height="10" rx="5" fill="#ff4d4d"/>
+        <text x="20" y="28" text-anchor="middle" font-family="Commissioner,sans-serif" font-size="10" font-weight="800" fill="#fff">FLEX</text>
+      </g>
+
+      <!-- front wall + automatic door -->
+      <rect x="300" y="120" width="70" height="350" fill="#E8E8E8"/>
+      <rect x="300" y="250" width="70" height="220" fill="#D8D8D8"/>
+      <rect id="door" x="304" y="256" width="62" height="214" rx="3" fill="url(#glass)" stroke="#9a9a9a" stroke-width="3"/>
+
+      <!-- customer -->
+      <g id="cust" style="transform:translate(-80px,0)">
+        <g id="custFlip">
+          <g class="bob">
+            <!-- legs -->
+            <rect class="leg l" x="-13" y="398" width="11" height="70" rx="5" fill="#2d3a66"/>
+            <rect class="leg r" x="2" y="398" width="11" height="70" rx="5" fill="#2d3a66"/>
+            <!-- arms (back) -->
+            <rect class="arm l" x="-26" y="330" width="10" height="58" rx="5" fill="#e7b48f"/>
+            <!-- body -->
+            <rect x="-22" y="318" width="44" height="88" rx="16" fill="#3a4a63"/>
+            <!-- arm front -->
+            <rect class="arm r" x="16" y="330" width="10" height="58" rx="5" fill="#e7b48f"/>
+            <!-- phone in hand (Snappi self-service) -->
+            <g id="custPhone"><rect x="10" y="352" width="18" height="30" rx="3" fill="#1d1b2c"/><rect x="12" y="356" width="14" height="20" rx="1" fill="#5ce0e0"/></g>
+            <!-- flex in hand -->
+            <g id="handFlex"><rect x="16" y="376" width="28" height="26" rx="4" fill="#E60000"/><text x="30" y="393" text-anchor="middle" font-family="Commissioner,sans-serif" font-size="8" font-weight="800" fill="#fff">FLEX</text></g>
+            <!-- head -->
+            <circle cx="0" cy="292" r="24" fill="#e7b48f"/>
+            <path d="M-24 288 C-26 262 24 258 24 286 C14 280 -4 282 -24 288Z" fill="#1f1a17"/>
+            <circle cx="9" cy="292" r="2.6" fill="#1d1b2c"/><circle cx="-5" cy="292" r="2.6" fill="#1d1b2c"/>
+            <path class="mouth-norm" d="M-2 304 Q4 307 10 304" stroke="#1d1b2c" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <path class="mouth-happy" d="M-4 301 Q4 312 12 301 Z" fill="#1d1b2c"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+
+    <div class="bubble cust" id="bCust"><span class="who">Πελάτης</span><span class="txt"></span></div>
+    <div class="bubble adv tail-right" id="bAdv"><span class="who">Agent</span><span class="txt"></span></div>
+    <div class="card" id="card"></div>
+    <div class="qr" id="qr">
+      <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#fff"/>
+        <g fill="#1d1b2c">
+          <rect x="8" y="8" width="26" height="26"/><rect x="14" y="14" width="14" height="14" fill="#fff"/><rect x="18" y="18" width="6" height="6"/>
+          <rect x="66" y="8" width="26" height="26"/><rect x="72" y="14" width="14" height="14" fill="#fff"/><rect x="76" y="18" width="6" height="6"/>
+          <rect x="8" y="66" width="26" height="26"/><rect x="14" y="72" width="14" height="14" fill="#fff"/><rect x="18" y="76" width="6" height="6"/>
+          <rect x="42" y="8" width="6" height="6"/><rect x="54" y="8" width="6" height="6"/><rect x="42" y="20" width="6" height="6"/>
+          <rect x="42" y="42" width="6" height="6"/><rect x="54" y="42" width="6" height="6"/><rect x="66" y="42" width="6" height="6"/><rect x="78" y="42" width="6" height="6"/>
+          <rect x="42" y="54" width="6" height="6"/><rect x="42" y="66" width="6" height="6"/><rect x="42" y="78" width="6" height="6"/>
+          <rect x="54" y="54" width="6" height="6"/><rect x="66" y="66" width="6" height="6"/><rect x="78" y="78" width="6" height="6"/><rect x="54" y="78" width="6" height="6"/><rect x="66" y="90" width="6" height="6"/>
+        </g>
+      </svg>
+    </div>
+    <div class="snappi-float" id="snappiFloat">
+      <div class="ring"></div>
+      <div class="lbl" id="snappiLbl">Snappi · Βήμα 1/10</div>
+      <div class="clock">Μ.Ο. ≈ 3–4 λεπτά</div>
+    </div>
+    <div class="zoom-backdrop" id="zoomBackdrop"></div>
+    <div class="screen-zoom" id="screenZoom">
+      <div class="screen-zoom__chrome">
+        <span class="screen-zoom__dot"></span><span class="screen-zoom__dot"></span><span class="screen-zoom__dot"></span>
+        <span class="screen-zoom__url">🔒 siebel.vodafone.gr</span>
+        <span class="screen-zoom__tag bau">Σήμερα — αμετάβλητο</span>
+      </div>
+      <div class="screen-zoom__body">
+        <div id="zoomBody"></div>
+      </div>
+    </div>
+    <div class="screen-zoom" id="screenZoomB">
+      <div class="screen-zoom__chrome snappi">
+        <span class="screen-zoom__dot"></span><span class="screen-zoom__dot"></span><span class="screen-zoom__dot"></span>
+        <span class="screen-zoom__url">🔒 portal.snappi.gr</span>
+        <span class="screen-zoom__tag new">Νέο με τη Snappi</span>
+      </div>
+      <div class="screen-zoom__body screen-zoom__body--split">
+        <div class="screen-zoom__bullets" id="zoomBulletsB"></div>
+        <div class="screen-zoom__qr" id="zoomQR">
+          <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#fff"/>
+            <g fill="#1d1b2c">
+              <rect x="8" y="8" width="26" height="26"/><rect x="14" y="14" width="14" height="14" fill="#fff"/><rect x="18" y="18" width="6" height="6"/>
+              <rect x="66" y="8" width="26" height="26"/><rect x="72" y="14" width="14" height="14" fill="#fff"/><rect x="76" y="18" width="6" height="6"/>
+              <rect x="8" y="66" width="26" height="26"/><rect x="14" y="72" width="14" height="14" fill="#fff"/><rect x="18" y="76" width="6" height="6"/>
+              <rect x="42" y="8" width="6" height="6"/><rect x="54" y="8" width="6" height="6"/><rect x="42" y="20" width="6" height="6"/>
+              <rect x="42" y="42" width="6" height="6"/><rect x="54" y="42" width="6" height="6"/><rect x="66" y="42" width="6" height="6"/><rect x="78" y="42" width="6" height="6"/>
+              <rect x="42" y="54" width="6" height="6"/><rect x="42" y="66" width="6" height="6"/><rect x="42" y="78" width="6" height="6"/>
+              <rect x="54" y="54" width="6" height="6"/><rect x="66" y="66" width="6" height="6"/><rect x="78" y="78" width="6" height="6"/><rect x="54" y="78" width="6" height="6"/><rect x="66" y="90" width="6" height="6"/>
+            </g>
+          </svg>
+          <span class="screen-zoom__qr-lbl">Σάρωσε με το κινητό</span>
+        </div>
+      </div>
+    </div>
+    <div class="end-badge" id="endOv"><span class="end-badge__msg">✅ Η αγορά ολοκληρώθηκε</span><button class="end-badge__btn" id="againBtn">↺ Ξανά</button></div>
+  </div>
+
+  <div class="caption"><div class="num" id="capNum">1 / 10</div><div class="title" id="capTitle"></div><div class="desc" id="capDesc"></div></div>
+  <div class="legend"><span><i class="bau"></i> Σήμερα — αμετάβλητο</span><span><i class="new"></i> Νέο με τη Snappi</span><span><i class="open"></i> ❗ Ανοιχτό σημείο — υπό σχεδίαση</span></div>
+  <div class="stepper" id="stepper"></div>
+  <div class="controls">
+    <button id="prevBtn">⏮ Πίσω</button>
+    <button id="playBtn" class="primary">⏸ Παύση</button>
+    <button id="nextBtn">Επόμενο ⏭</button>
+    <button id="restartBtn">↺ Αρχή</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   Real "Shop Journey" content — Flex x Snappi Journey (2).pptx, slide 3
+   ========================================================= */
+const STEPS = [
+  {title:"Άφιξη στο κατάστημα",        desc:"Ο πελάτης μπαίνει στο κατάστημα Vodafone.", tag:"bau"},
+  {title:"Ζητά το Flex",               desc:"Δόσεις μέσω Flex, για μια νέα συσκευή.", tag:"bau"},
+  {title:"Στην οθόνη του agent — Siebel portal", desc:"Eligibility, BAU renewal/tariff, συναίνεση.", tag:"new"},
+  {title:"Στην οθόνη του agent — Snappi portal", desc:"Αυτόματα στοιχεία, ο agent παράγει QR code και προωθεί τον πελάτη στη Snappi.", tag:"new"},
+  {title:"10 βήματα στη Snappi",       desc:"Ο πελάτης τα ολοκληρώνει μόνος στο κινητό του — η Snappi αποφασίζει. Μέσος όρος ≈ 3–4 λεπτά.", tag:"new"},
+  {title:"Επιστροφή στο ταμείο",       desc:"Η Snappi επιστρέφει την απόφαση — ο πελάτης επιστρέφει στο ταμείο.", tag:"bau"},
+  {title:"Παραλαβή συσκευής",          desc:"Ο πελάτης παραλαμβάνει τη νέα του συσκευή.", tag:"bau"},
+  {title:"Πληρωμή",                    desc:"Πληρώνει λογαριασμό & δόση — κάθε μήνα, από εδώ και πέρα.", tag:"bau"}
+];
+
+/* Bullets shown inside the zoomed agent-screen focus (steps 2 & 3). */
+const SIEBEL_SCREEN_BULLETS = [
+  {text:"Έλεγχος επιλεξιμότητας Flex", sub:"Ο πελάτης είναι eligible για 1.200€, σε έως 36 δόσεις."},
+  {text:"Renewal ή Change Tariff, για το Flex (BAU)", sub:"Ο agent ενημερώνει τον πελάτη και ολοκληρώνει όλη την αίτηση — μένει σε κατάσταση Pending στο Siebel, μέχρι να εγκριθεί το δάνειο."},
+  {text:"«Συμφωνώ / Συναινώ» ❗", sub:"Ο πελάτης συναινεί στη διαβίβαση των στοιχείων του στη Snappi, για την έκδοση του δανείου. Ανοιχτό σημείο: ο ακριβής τρόπος καταγραφής της συναίνεσης είναι ακόμα υπό σχεδίαση.", open:true}
+];
+const SNAPPI_SCREEN_BULLETS = [
+  {text:"Μετάβαση στο Snappi Portal", sub:"Αυτόματα συμπληρωμένα στοιχεία: Όνομα, Email, MSISDN. Ο agent πατά Συνέχεια, παράγεται QR code — ρωτά SMS ή Email, και το στέλνει.", snappi:true},
+  {text:"Ο πελάτης ανοίγει το link", sub:"Από τη δική του συσκευή, ξεκινά το onboarding στη Snappi (10 βήματα).", snappi:true}
+];
+
+// x: θέση πελάτη (0–1000)
+const SCENES = [
+  {step:0, x:250, face:1,
+   bubbles:[{who:"cust", thought:true, delay:200, text:"Χρειάζομαι μια νέα συσκευή — αλλά θέλω να την πληρώσω σε δόσεις."}]},
+  {step:1, x:520, face:1, door:true, wave:true,
+   bubbles:[{who:"adv", delay:0, text:"Καλώς ήρθατε στη Vodafone! Πώς μπορώ να βοηθήσω;"}]},
+  {step:1, x:640, face:1,
+   bubbles:[{who:"cust", delay:100, text:"Θα ήθελα μια συσκευή με δόσεις μέσω Flex."}]},
+  {step:2, x:640, face:1, pos:"#7ec8ff", zoom:{type:"siebel", bullets:SIEBEL_SCREEN_BULLETS},
+   bubbles:[{who:"adv", delay:300, text:"Δώστε μου ένα λεπτό να τα δω όλα στην οθόνη μου…"}]},
+  {step:3, x:640, face:1, pos:"#7ec8ff", zoom:{type:"snappi", bullets:SNAPPI_SCREEN_BULLETS, offset:3},
+   bubbles:[{who:"adv", delay:300, text:"Πάμε τώρα στο Snappi Portal, να σας στείλω το QR…"}]},
+  {step:4, x:900, face:1, snappi:true, onphone:true, snappiProgress:true,
+   bubbles:[{who:"cust", thought:true, delay:2200, text:"gov.gr, ταυτοποίηση, πιστωτικός έλεγχος… όλα από το κινητό μου."}]},
+  {step:5, x:640, face:-1, pos:"#4ade80", snappi:false,
+   card:{icon:"📋", title:"Siebel", tag:"Σήμερα · αμετάβλητο", items:["Η Snappi ενέκρινε το δάνειο","Η αίτηση renewal/tariff γίνεται Submitted","Η παραγγελία Flex ενεργοποιείται"]},
+   bubbles:[{who:"adv", delay:900, text:"Η Snappi ενέκρινε το δάνειο! Ολοκληρώνω την παραγγελία στο Siebel."}]},
+  {step:6, x:640, face:-1, flex:"hand", happy:true, confetti:true,
+   bubbles:[{who:"adv", delay:400, text:"Ορίστε η καινούρια σας συσκευή!"},
+            {who:"cust", delay:3200, text:"Ευχαριστώ πολύ!"}]},
+  {step:7, x:-90, face:-1, door:true, flex:"hand", happy:true, wave:true,
+   bubbles:[{who:"cust", delay:300, text:"Από εδώ και πέρα, πληρώνω λογαριασμό και δόση μαζί, κάθε μήνα."}]}
+];
+/* ========================================================= */
+
+const $ = id => document.getElementById(id);
+const cust=$('cust'), flip=$('custFlip'), door=$('door'), flexBox=$('flexBox'), adv=$('advisor');
+const bCust=$('bCust'), bAdv=$('bAdv'), card=$('card'), stage=$('stage'), pos=$('posScreen');
+const qr=$('qr'), snappiFloat=$('snappiFloat'), snappiLbl=$('snappiLbl');
+const zoomBackdrop=$('zoomBackdrop'), screenZoom=$('screenZoom'), zoomBody=$('zoomBody');
+const screenZoomB=$('screenZoomB'), zoomBulletsB=$('zoomBulletsB'), zoomQR=$('zoomQR');
+const flexHand=$('handFlex');
+const ZOOM_BULLET_GAP = 4000, ZOOM_START_DELAY = 900, ZOOM_HOLD = 5000;
+const SPEED = 190;                // μονάδες/δευτερόλεπτο
+const FLEXPOS = {shelf:[560,262], counter:[782,336], hand:[782,336]};
+let cur=0, playing=true, timers=[], walkState=null;
+
+// stepper
+STEPS.forEach((s,i)=>{const b=document.createElement('button');b.textContent=(i+1)+'. '+s.title;
+  b.classList.toggle('tag-new', s.tag==='new');
+  b.onclick=()=>goTo(SCENES.findIndex(sc=>sc.step===i));$('stepper').appendChild(b);});
+
+function scheduleTimer(t){
+  t.startedAt=Date.now();
+  t.handle=setTimeout(()=>{ timers=timers.filter(x=>x!==t); t.fn(); }, Math.max(0,t.remaining));
+}
+function later(ms,fn){
+  const t={fn, remaining:ms, handle:null, startedAt:0};
+  scheduleTimer(t);
+  timers.push(t);
+  return t;
+}
+function clearAll(){timers.forEach(t=>clearTimeout(t.handle));timers=[];}
+function pauseTimers(){
+  const now=Date.now();
+  timers.forEach(t=>{ clearTimeout(t.handle); t.remaining-=(now-t.startedAt); });
+}
+function resumeTimers(){ timers.forEach(scheduleTimer); }
+function pauseWalk(){
+  if(!walkState) return;
+  const elapsed=Date.now()-walkState.startTime;
+  const frac=Math.min(1, elapsed/walkState.duration);
+  const curX=walkState.startX+(walkState.endX-walkState.startX)*frac;
+  cust.style.transition='none'; cust.style.transform=`translate(${curX}px,0)`; cust.getBoundingClientRect();
+  walkState.startX=curX; walkState.remaining=Math.max(0,walkState.duration-elapsed);
+}
+function resumeWalk(){
+  if(!walkState) return;
+  cust.style.transition=`transform ${walkState.remaining}ms linear`;
+  cust.style.transform=`translate(${walkState.endX}px,0)`;
+  walkState.startTime=Date.now(); walkState.duration=walkState.remaining;
+}
+
+function placeBubble(el,who,x){
+  if(who==='adv'){ el.style.right=(1000-850)/10+'%'; el.style.left='auto'; el.style.bottom=(560-205)/5.6+'%';
+    el.className='bubble adv tail-right'; return; }
+  el.style.bottom=(560-262)/5.6+'%';
+  if(x<420){ el.style.left=Math.max(1,(x-25)/10)+'%'; el.style.right='auto'; el.classList.add('tail-left'); el.classList.remove('tail-right'); }
+  else { el.style.right=(1000-x-30)/10+'%'; el.style.left='auto'; el.classList.add('tail-right'); el.classList.remove('tail-left'); }
+}
+function say(b,x){
+  const el = b.who==='adv'?bAdv:bCust;
+  el.classList.remove('show');
+  later(b.fast?0:120,()=>{ el.querySelector('.txt').textContent=b.text; placeBubble(el,b.who,x);
+    el.classList.toggle('thought',!!b.thought); el.classList.add('show'); });
+}
+function showCard(c){
+  if(!c){card.classList.remove('show');return;}
+  card.classList.toggle('snappi', !!c.snappi);
+  card.innerHTML=`<h3>${c.icon} ${c.title}</h3><ul>${c.items.map(t=>`<li><span class="chk">✓</span>${t}</li>`).join('')}</ul><span class="tag">${c.tag}</span>`;
+  requestAnimationFrame(()=>card.classList.add('show'));
+  card.querySelectorAll('li').forEach((li,i)=>later(900+i*900,()=>li.classList.add('done')));
+}
+function confetti(){
+  const cols=['#E60000','#00A6A6','#FFD66B','#4ade80','#7ec8ff','#ff6fa8'];
+  for(let i=0;i<70;i++){const d=document.createElement('div');d.className='conf';
+    d.style.left=Math.random()*100+'%';d.style.background=cols[i%cols.length];
+    d.style.animationDuration=(1.8+Math.random()*1.8)+'s';d.style.animationDelay=(Math.random()*.6)+'s';
+    stage.appendChild(d);setTimeout(()=>d.remove(),4500);}
+}
+function setFlex(where,instant){
+  const p=FLEXPOS[where||'shelf'];
+  if(instant){flexBox.style.transition='none';}
+  flexBox.style.transform=`translate(${p[0]}px,${p[1]}px)`;
+  if(instant){flexBox.getBoundingClientRect();flexBox.style.transition='';}
+  flexBox.style.opacity = where==='hand'?0:1;
+  cust.classList.toggle('holding',where==='hand');
+}
+function buildBulletRows(container, bullets, offset){
+  container.innerHTML='';
+  bullets.forEach((b,i)=>{
+    const row=document.createElement('div');
+    row.className='screen-zoom__bullet'+(b.snappi?' snappi':'')+(b.open?' open':'');
+    const openTag = b.open ? `<br><span class="screen-zoom__tag open">❗ Ανοιχτό σημείο — υπό σχεδίαση</span>` : '';
+    row.innerHTML=`<span class="n">${b.open?'❗':(offset+i+1)}</span><span><b>${b.text}</b><br><span>${b.sub}</span>${openTag}</span>`;
+    container.appendChild(row);
+  });
+}
+function zoomCloseAt(bullets){
+  const lastReveal = ZOOM_START_DELAY + Math.max(bullets.length-1,0)*ZOOM_BULLET_GAP;
+  return lastReveal + ZOOM_HOLD;
+}
+function runSiebelZoom(bullets){
+  buildBulletRows(zoomBody, bullets, 0);
+  zoomBackdrop.classList.add('show');
+  screenZoom.classList.add('show');
+  zoomBody.querySelectorAll('.screen-zoom__bullet').forEach((row,i)=>{
+    later(ZOOM_START_DELAY + i*ZOOM_BULLET_GAP, ()=>row.classList.add('show'));
+  });
+  const closeAt = zoomCloseAt(bullets);
+  later(closeAt, ()=>{ zoomBackdrop.classList.remove('show'); screenZoom.classList.remove('show'); });
+  return closeAt + 700;
+}
+function runSnappiZoom(bullets, offset){
+  buildBulletRows(zoomBulletsB, bullets, offset);
+  zoomQR.classList.remove('show');
+  zoomBackdrop.classList.add('show');
+  screenZoomB.classList.add('show');
+  zoomBulletsB.querySelectorAll('.screen-zoom__bullet').forEach((row,i)=>{
+    const at = ZOOM_START_DELAY + i*ZOOM_BULLET_GAP;
+    later(at, ()=>row.classList.add('show'));
+    if(i===0) later(at+800, ()=> zoomQR.classList.add('show'));
+  });
+  const closeAt = zoomCloseAt(bullets);
+  later(closeAt, ()=>{ zoomBackdrop.classList.remove('show'); screenZoomB.classList.remove('show'); });
+  return closeAt + 700;
+}
+function runZoom(z){
+  return z.type==='siebel' ? runSiebelZoom(z.bullets) : runSnappiZoom(z.bullets, z.offset||0);
+}
+function runSnappiProgress(x){
+  snappiFloat.style.left=Math.max(1,(x-60)/10)+'%';
+  snappiFloat.style.bottom=(560-330)/5.6+'%';
+  snappiFloat.classList.add('show');
+  let n=1;
+  const tick=()=>{ snappiLbl.textContent=`Snappi · Βήμα ${n}/10`; n++;
+    if(n<=10) later(520,tick); else later(1200,()=>snappiFloat.classList.remove('show')); };
+  tick();
+}
+
+function goTo(i){
+  clearAll(); walkState=null; if(i<0) i=0; if(i>=SCENES.length) i=SCENES.length-1;
+  cur=i; const s=SCENES[i];
+  $('endOv').classList.remove('show');
+  bCust.classList.remove('show'); bAdv.classList.remove('show');
+  qr.classList.remove('show'); snappiFloat.classList.remove('show');
+  zoomBackdrop.classList.remove('show'); screenZoom.classList.remove('show'); screenZoomB.classList.remove('show');
+  cust.classList.remove('onphone');
+
+  // caption + stepper
+  const st=STEPS[s.step];
+  $('capNum').textContent=`Βήμα ${s.step+1} / ${STEPS.length}`;
+  $('capNum').classList.toggle('new', st.tag==='new');
+  $('capTitle').textContent=st.title; $('capDesc').textContent=st.desc;
+  [...$('stepper').children].forEach((b,k)=>{b.classList.toggle('active',k===s.step);b.classList.toggle('done',k<s.step);});
+
+  // starting position = end of previous scene
+  const startX = i===0?-80:SCENES[i-1].x;
+  cust.style.transition='none'; cust.style.transform=`translate(${startX}px,0)`; cust.getBoundingClientRect();
+  flip.style.transform = s.face<0?'scaleX(-1)':'';
+  flexHand.style.transform = s.face<0?'scaleX(-1)':'';
+  cust.classList.toggle('happy',!!s.happy);
+
+  // flex product
+  const prevFlex = i===0?'shelf':(SCENES[i-1].flex||'shelf');
+  setFlex(prevFlex,true);
+  later(250,()=>setFlex(s.flex||'shelf'));
+  flexBox.classList.toggle('glow',!!s.snappi);
+  pos.style.fill = s.pos || '#6b6880';
+
+  // door + walk
+  const dist=Math.abs(s.x-startX), walkMs=dist/SPEED*1000;
+  const walkDelay = s.door?450:0;
+  if(s.door) door.classList.add('open'); else door.classList.remove('open');
+  if(dist>0){
+    later(walkDelay,()=>{cust.style.transition=`transform ${walkMs}ms linear`;cust.style.transform=`translate(${s.x}px,0)`;cust.classList.add('walking');
+      walkState={startX, endX:s.x, startTime:Date.now(), duration:walkMs, remaining:walkMs};});
+    later(walkDelay+walkMs,()=>{cust.classList.remove('walking'); if(s.door) door.classList.remove('open');
+      if(s.onphone) cust.classList.add('onphone'); walkState=null; });
+  } else if(s.onphone){ cust.classList.add('onphone'); }
+  if(s.wave){adv.classList.remove('waving');void adv.getBBox();adv.classList.add('waving');later(1700,()=>adv.classList.remove('waving'));}
+
+  // bubbles & extras
+  const base = walkDelay + (dist>0?walkMs:0) + 150;
+  const bubbleX = s.x;
+  s.bubbles.forEach(b=>later(base+b.delay,()=>say(b,bubbleX)));
+  showCard(null); if(s.card) later(200,()=>showCard(s.card));
+  if(s.confetti) later(300,confetti);
+  if(s.qr){ qr.style.left=(815-40)/10+'%'; qr.style.bottom=(560-330)/5.6+'%'; later(base+1400,()=>qr.classList.add('show')); }
+  if(s.snappiProgress) later(base+300,()=>runSnappiProgress(s.x));
+  if(s.zoom) later(base+3900,()=>runZoom(s.zoom));
+
+  // timing
+  const lastDelay=Math.max(...s.bubbles.map(b=>b.delay), 0);
+  let total = Math.max(base+lastDelay+4200, walkDelay+walkMs+800, s.card?900+s.card.items.length*900+2200:0);
+  if(s.snappiProgress) total = Math.max(total, base+300+10*520+2600);
+  if(s.zoom) total = Math.max(total, base+3900+zoomCloseAt(s.zoom.bullets)+900);
+  later(total,()=>{ if(!playing) return;
+    if(cur<SCENES.length-1) goTo(cur+1); else { $('endOv').classList.add('show'); setPlaying(false); } });
+}
+
+function setPlaying(p){playing=p;$('playBtn').textContent=p?'⏸ Παύση':'▶ Αναπαραγωγή';stage.classList.toggle('paused',!p);}
+$('playBtn').onclick=()=>{
+  if(playing){ setPlaying(false); pauseTimers(); pauseWalk(); return; }
+  if(cur>=SCENES.length-1 && $('endOv').classList.contains('show')){ setPlaying(true); goTo(0); return; }
+  setPlaying(true); resumeWalk(); resumeTimers();
+};
+$('nextBtn').onclick=()=>goTo(cur+1);
+$('prevBtn').onclick=()=>goTo(cur-1);
+$('restartBtn').onclick=$('againBtn').onclick=()=>{setPlaying(true);goTo(0);};
+document.addEventListener('keydown',e=>{ if(e.key==='ArrowRight')goTo(cur+1); if(e.key==='ArrowLeft')goTo(cur-1); if(e.key===' '){e.preventDefault();$('playBtn').click();} });
+
+setTimeout(()=>goTo(0),500);
+</script>
+</body>
+</html>
