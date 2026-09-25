@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online bill payment (2 separate payments) – Vodafone (Demo)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top utility bar -->
+  <div class="topbar">
+    <nav class="topbar__tabs">
+      <a href="#" class="topbar__tab topbar__tab--active">Individuals</a>
+      <a href="#" class="topbar__tab">Business</a>
+      <a href="#" class="topbar__tab">Vodafone Network</a>
+    </nav>
+    <div class="topbar__right">
+      <a href="#" class="topbar__link">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9S9.5 5.5 12 3z"/></svg>
+        Visiting Greece
+      </a>
+      <span class="topbar__divider">|</span>
+      <a href="#" class="topbar__link">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="8.2" r="1.6" fill="currentColor" stroke="none"/><path d="M12 11.5v6M9.2 12.5l2.8-1 2.8 1"/></svg>
+        Accessibility
+      </a>
+    </div>
+  </div>
+
+  <!-- Main header -->
+  <header class="header">
+    <a href="#" class="header__logo" aria-label="Vodafone">
+      <img src="vodafone-logo.png" width="40" height="40" alt="">
+    </a>
+    <nav class="header__nav">
+      <a href="#">Plans</a>
+      <a href="#">eShop</a>
+      <a href="#" class="active">Support</a>
+      <a href="#">My Vodafone</a>
+      <a href="#">Offers</a>
+      <a href="#">Tech Heroes</a>
+    </nav>
+    <div class="header__actions">
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <a href="#" class="header__login">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.6-4 5-6 8-6s6.4 2 8 6"/></svg>
+        Sign in/Register
+      </a>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="#">Home</a>
+    <span class="breadcrumb__sep">›</span>
+    <a href="#">Support</a>
+    <span class="breadcrumb__sep">›</span>
+    <a href="#">Account</a>
+    <span class="breadcrumb__sep">›</span>
+    <span class="breadcrumb__current">Bill payment</span>
+  </div>
+
+  <!-- Page content -->
+  <main class="page">
+    <h1 class="page__title">Online bill payment</h1>
+
+    <div class="layout">
+
+      <!-- Payment card -->
+      <section class="card payment-card">
+        <h2 class="payment-card__heading">Choose a payment method</h2>
+
+        <div class="radio-group" role="radiogroup" aria-label="Payment method">
+          <label class="radio">
+            <input type="radio" name="payment-method" id="method-phone" checked>
+            <span class="radio__dot"></span>
+            With phone number
+          </label>
+          <label class="radio">
+            <input type="radio" name="payment-method" id="method-subscriber">
+            <span class="radio__dot"></span>
+            With subscriber registry number
+          </label>
+        </div>
+
+        <div class="field">
+          <input type="text" id="phone-input" class="field__input" placeholder="Enter your phone number" inputmode="tel">
+          <p class="field__hint">Enter your mobile or landline number.</p>
+        </div>
+
+        <div class="payment-card__footer">
+          <button id="continue-btn" class="btn btn--primary" disabled>Continue</button>
+        </div>
+
+        <p class="demo-note">
+          Demo data — phone <code>6912345678</code> or registry no. <code>123456789</code> opens the Flex/Snappi scenario· any other value opens the standard flow.
+        </p>
+      </section>
+
+      <!-- Side cards -->
+      <aside class="side-cards">
+        <div class="card side-card">
+          <div class="side-card__body">
+            <h3>Need a payment extension?</h3>
+            <a href="#" class="side-card__link">Start a Chat now <span aria-hidden="true">›</span></a>
+          </div>
+          <div class="side-card__icon">
+            <svg viewBox="0 0 64 64" width="48" height="48">
+              <circle cx="32" cy="32" r="32" fill="#E60000"/>
+              <circle cx="32" cy="27" r="12" fill="#fff"/>
+              <circle cx="27" cy="26" r="1.6" fill="#E60000"/>
+              <circle cx="37" cy="26" r="1.6" fill="#E60000"/>
+              <path d="M26 31c1.8 2 8.2 2 10 0" stroke="#E60000" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card side-card">
+          <div class="side-card__body">
+            <h3>See your bill breakdown</h3>
+            <a href="#" class="side-card__link">Start a Chat now <span aria-hidden="true">›</span></a>
+          </div>
+          <div class="side-card__icon">
+            <svg viewBox="0 0 64 64" width="44" height="48">
+              <path d="M14 6h28l8 8v44a2 2 0 0 1-2 2H14a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" fill="#E60000"/>
+              <path d="M42 6v8h8z" fill="#B30000"/>
+              <line x1="18" y1="26" x2="46" y2="26" stroke="#fff" stroke-width="2"/>
+              <line x1="18" y1="34" x2="46" y2="34" stroke="#fff" stroke-width="2"/>
+              <line x1="18" y1="42" x2="38" y2="42" stroke="#fff" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Floating chat widget -->
+  <div class="chat-widget">
+    <div class="chat-widget__tooltip">How can I help you?</div>
+    <button class="chat-widget__bubble" aria-label="Open chat">
+      <svg viewBox="0 0 64 64" width="40" height="40">
+        <circle cx="32" cy="32" r="32" fill="#E60000"/>
+        <circle cx="32" cy="27" r="12" fill="#fff"/>
+        <circle cx="27" cy="26" r="1.6" fill="#E60000"/>
+        <circle cx="37" cy="26" r="1.6" fill="#E60000"/>
+        <path d="M26 31c1.8 2 8.2 2 10 0" stroke="#E60000" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Backend-check loading overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-card">
+      <div class="loading-spinner"></div>
+      <p>Checking account…</p>
+    </div>
+  </div>
+
+  <!-- Scenario 2: standard Vodafone payment modal -->
+  <div class="modal-overlay" id="standard-modal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="standard-modal-title">
+      <button class="modal-close" data-close-modal aria-label="Close">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+
+      <h2 id="standard-modal-title" class="modal-title">Bill payment</h2>
+
+      <label class="modal-label" for="amount-input">Enter the payment amount</label>
+      <div class="modal-input-wrap">
+        <input type="text" id="amount-input" class="modal-input" placeholder="Payment amount" inputmode="decimal">
+        <button type="button" class="modal-input-clear" id="amount-clear" aria-label="Clear" hidden>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#6e6e6e" stroke-width="2"><path d="M5 5l14 14M19 5L5 19"/></svg>
+        </button>
+      </div>
+      <p class="modal-hint">Enter the total amount due, or part of it.</p>
+
+      <div class="modal-warning" id="standard-modal-warning" hidden>
+        <div class="modal-warning__icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3.5L2 20.5h20L12 3.5z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.3" r="0.9" fill="#fff" stroke="none"/></svg>
+        </div>
+        <p>The balance can't be shown for this particular registry number.</p>
+      </div>
+
+      <label class="modal-label modal-label--spaced">Choose a payment method</label>
+      <button type="button" class="modal-select" id="standard-modal-select">
+        <span class="modal-select__left">
+          <svg viewBox="0 0 32 22" width="30" height="20"><rect x="1" y="1" width="30" height="20" rx="3" fill="#e8e8e8" stroke="#b5b5b5"/><rect x="1" y="6" width="30" height="4" fill="#8a8a8a"/><rect x="4" y="14" width="10" height="2.4" fill="#b5b5b5"/></svg>
+          Debit/credit card
+        </span>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+
+      <button id="standard-modal-continue" class="btn btn--primary btn--modal" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- SMS gate: verify balance before entering the Snappi environment -->
+  <div class="modal-overlay" id="sms-gate-modal" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="sms-gate-title">
+      <button class="modal-close" data-close-modal aria-label="Close">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+
+      <!-- Step: prompt -->
+      <div class="gate-step" data-gate-step="prompt">
+        <h2 id="sms-gate-title" class="modal-title" style="font-size:26px;">Bill &amp; installment balance</h2>
+        <p class="flex-step__text">You'll need to enter the one-time code we'll send you by SMS, so we can look up your bill balance and your Vodafone Flex installment.</p>
+        <button type="button" class="btn btn--primary btn--modal" id="sms-gate-send-otp">Send code</button>
+      </div>
+
+      <!-- Step: otp -->
+      <div class="gate-step" data-gate-step="otp" hidden>
+        <label class="modal-label" for="sms-gate-otp-input">One-time code</label>
+        <input type="text" id="sms-gate-otp-input" class="modal-input" placeholder="Enter the code" inputmode="numeric">
+        <p class="modal-hint">A code was sent to your phone by SMS.</p>
+        <button type="button" class="btn btn--primary btn--modal" id="sms-gate-confirm-otp" disabled>Confirm</button>
+        <button type="button" class="flex-step__back" id="sms-gate-otp-back">‹ Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scenario 1: Flex installments via Snappi Bank -->
+  <div class="modal-overlay" id="flex-modal" aria-hidden="true">
+    <div class="modal-panel modal-panel--flex" role="dialog" aria-modal="true" aria-labelledby="flex-modal-title">
+      <button class="modal-close" data-close-modal aria-label="Close">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#262626" stroke-width="1.8"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+
+      <div class="flex-brandbar">
+        <img src="vodafone-logo.png" width="26" height="26" alt="">
+        <span class="flex-brandbar__x">×</span>
+        <span class="flex-brandbar__snappi">snappi</span>
+      </div>
+
+      <h2 id="flex-modal-title" class="modal-title modal-title--flex">Bill &amp; Vodafone Flex installment payment</h2>
+      <p class="flex-sub">Pay your mobile or landline bill, as well as your installment from the <strong>Vodafone Flex</strong> programme, via <strong>Snappi Bank</strong> in partnership with Vodafone.</p>
+
+      <div class="info-bubble-wrap">
+        <button type="button" class="info-bubble-trigger" data-info-trigger>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="8" r="0.8" fill="currentColor" stroke="none"/><path d="M12 11.5v5.2"/></svg>
+          How does this scenario work?
+        </button>
+        <div class="info-bubble" data-info-bubble>
+          Behind the scenes, a backend check runs in <strong>Siebel</strong> confirming active Flex installments, and brings up the iframe for payment inside the Snappi environment.
+        </div>
+      </div>
+
+      <div class="flex-frame">
+        <div class="flex-frame__chrome">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#4a4a4a" stroke-width="2"><rect x="5" y="10" width="14" height="9" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          Secure connection · snappibank.com
+        </div>
+        <div class="flex-frame__body">
+
+          <!-- Step: amounts (prefilled — balance already confirmed via SMS) -->
+          <div class="flex-step" data-step="amounts">
+            <label class="modal-label" for="flex-bill-input">Bill amount</label>
+            <input type="text" id="flex-bill-input" class="modal-input" readonly>
+
+            <label class="modal-label modal-label--spaced" for="flex-installment-input">Flex installment amount <span class="installment-badge" data-installment-badge></span></label>
+            <input type="text" id="flex-installment-input" class="modal-input" readonly>
+            <p class="modal-hint">These amounts were pulled automatically after confirming the SMS code.</p>
+
+            <button type="button" id="flex-amounts-continue" class="btn btn--flex">Continue</button>
+            <button type="button" class="flex-step__back" id="flex-amounts-back">‹ Back</button>
+          </div>
+
+          <!-- Step: payment method -->
+          <div class="flex-step" data-step="payment" hidden>
+            <p class="flex-step__summary" id="flex-payment-summary">Payment amount: €0.00</p>
+
+            <div class="flex-method-options">
+              <label class="flex-method-card">
+                <input type="radio" name="flex-payment-method" value="card" checked>
+                <span class="flex-method-card__radio"></span>
+                <svg viewBox="0 0 32 22" width="30" height="20"><rect x="1" y="1" width="30" height="20" rx="3" fill="#e8e8e8" stroke="#b5b5b5"/><rect x="1" y="6" width="30" height="4" fill="#8a8a8a"/></svg>
+                Pay by card
+              </label>
+              <label class="flex-method-card">
+                <input type="radio" name="flex-payment-method" value="wallet">
+                <span class="flex-method-card__radio"></span>
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#262626" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16" cy="14.5" r="1.4" fill="#262626" stroke="none"/></svg>
+                Pay with Google Pay / Apple Pay
+              </label>
+            </div>
+
+            <div class="flex-card-fields" id="flex-card-fields">
+              <input type="text" id="flex-card-number" class="modal-input flex-card-input" placeholder="Card number">
+              <div class="flex-card-row">
+                <input type="text" id="flex-card-expiry" class="modal-input" placeholder="MM/YY">
+                <input type="text" id="flex-card-cvv" class="modal-input" placeholder="CVV">
+              </div>
+            </div>
+
+            <div class="flex-wallet-note" id="flex-wallet-note" hidden>
+              You'll be asked to confirm on your device.
+            </div>
+
+            <button id="flex-modal-continue" class="btn btn--flex">Complete payment</button>
+            <p class="flex-frame__footer">Your card details are not stored by Vodafone.</p>
+            <p class="flex-frame__footer">This payment page is hosted by the acquirer <strong>epay</strong>.</p>
+            <button type="button" class="flex-step__back" id="flex-payment-back">‹ Back</button>
+          </div>
+
+          <!-- Step: success -->
+          <div class="flex-step" data-step="success" hidden>
+            <div class="flex-success">
+              <div class="flex-success__icon">✓</div>
+              <p class="flex-success__title">Payment complete</p>
+              <p class="flex-success__desc" id="flex-success-desc">Your bill and installment were paid via Snappi Bank.</p>
+            </div>
+            <button type="button" id="flex-success-close" class="btn btn--flex">Close</button>
+          </div>
+
+        </div>
+      </div>
+
+      <p class="flex-powered-footer">🔒 Powered by snappibank.com</p>
+    </div>
+  </div>
+
+  <a href="index.html" class="view-switch-btn">⇄ Switch view</a>
+
+  <div class="auto-cursor" id="auto-cursor"></div>
+  <div class="auto-controls">
+    <button type="button" id="auto-play-btn" class="primary">⏸ Pause</button>
+  </div>
+
+  <script src="web2-en.js"></script>
+  <script src="web2-en-auto.js"></script>
+</body>
+</html>

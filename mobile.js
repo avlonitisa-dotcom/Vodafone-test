@@ -153,8 +153,9 @@ mStandardConfirm.addEventListener('click', () => {
 });
 
 /* ---------- Sheet: Flex / Snappi payment ---------- */
-const mFlexAmountInput = document.getElementById('m-flex-amount-input');
-const mFlexAmountHint = document.getElementById('m-flex-amount-hint');
+const mFlexBillInput = document.getElementById('m-flex-bill-input');
+const mFlexInstallmentInput = document.getElementById('m-flex-installment-input');
+const mFlexInstallmentBadge = document.querySelector('#m-sheet-flex [data-installment-badge]');
 const mFlexAmountsContinue = document.getElementById('m-flex-amounts-continue');
 const mFlexPaymentSummary = document.getElementById('m-flex-payment-summary');
 const mFlexCardFields = document.getElementById('m-flex-card-fields');
@@ -178,18 +179,16 @@ function toggleMobileFlexPaymentMethodUI(method) {
 
 function resetMobileFlexSheet() {
   /* Logged-in session — amounts are already known, no SMS/OTP step needed. */
-  const total = parseAmount(FLEX_PULL_VALUES.bill) + parseAmount(FLEX_PULL_VALUES.installment);
-  mFlexAmountInput.value = formatAmount(total).replace(' €', '');
-  mFlexAmountHint.innerHTML = 'Περιλαμβάνει: λογαριασμός ' + FLEX_PULL_VALUES.bill + ' € + δόση '
-    + FLEX_INSTALLMENT_INFO.current + '/' + FLEX_INSTALLMENT_INFO.total + ' Flex ' + FLEX_PULL_VALUES.installment + ' €.';
+  mFlexBillInput.value = FLEX_PULL_VALUES.bill;
+  mFlexInstallmentInput.value = FLEX_PULL_VALUES.installment;
+  mFlexInstallmentBadge.textContent = FLEX_INSTALLMENT_INFO.current + '/' + FLEX_INSTALLMENT_INFO.total;
   document.querySelector('input[name="m-flex-payment-method"][value="card"]').checked = true;
   toggleMobileFlexPaymentMethodUI('card');
   showMobileFlexStep('amounts');
 }
 
 mFlexAmountsContinue.addEventListener('click', () => {
-  if (mFlexAmountsContinue.disabled) return;
-  const total = parseAmount(mFlexAmountInput.value);
+  const total = parseAmount(mFlexBillInput.value) + parseAmount(mFlexInstallmentInput.value);
   mFlexPaymentSummary.textContent = 'Πληρωμή ποσού: ' + formatAmount(total);
   showMobileFlexStep('payment');
 });

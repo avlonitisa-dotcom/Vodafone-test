@@ -61,6 +61,7 @@ consentCheckbox.addEventListener('change', () => {
 });
 
 const PRODUCT_PRICE = 699;
+const snappiAmountDisplay = document.getElementById('jb-snappi-amount');
 const remainderAmountDisplay = document.getElementById('jb-remainder-amount');
 const nexiAmountDisplay = document.getElementById('jb-nexi-amount');
 const cardNumberInput = document.getElementById('jb-card-number');
@@ -108,6 +109,7 @@ function recomputeResult() {
   resultRate.textContent = formatEuro(rate);
   resultTotal.textContent = formatEuro(amount);
   resultRemaining.textContent = formatEuro(remaining);
+  snappiAmountDisplay.textContent = '€' + Math.round(amount);
   remainderAmountDisplay.textContent = formatEuro(remaining);
   nexiAmountDisplay.textContent = 'ΕΥΡΩ ' + remaining.toLocaleString('el-GR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   remainderPayBtn.textContent = 'Πληρωμή ' + formatEuro(remaining);
