@@ -994,6 +994,79 @@ a { text-decoration: none; color: inherit; }
   line-height: 1.4;
 }
 
+.chooser__card--wide { max-width: 940px; }
+
+.chooser__section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--vf-grey-text);
+  margin: 36px 0 14px;
+  text-align: left;
+}
+
+.chooser__section-title:first-of-type { margin-top: 8px; }
+
+.journey-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.journey-card {
+  background: #fafafa;
+  border: 1.5px solid var(--vf-grey-border);
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  transition: border-color 0.15s ease;
+}
+
+.journey-card:hover { border-color: var(--vf-red); }
+
+.journey-card__icon { font-size: 28px; }
+
+.journey-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--vf-text);
+  margin: 0;
+}
+
+.journey-card__desc {
+  font-size: 12.5px;
+  color: var(--vf-grey-text);
+  line-height: 1.45;
+  margin: 0 0 10px;
+  flex: 1;
+}
+
+.journey-card__links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.journey-card__link {
+  display: inline-block;
+  background: var(--vf-red);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  text-align: center;
+  font-family: var(--font);
+  transition: background 0.15s ease;
+}
+
+.journey-card__link:hover { background: var(--vf-red-dark); }
+
 .view-switch-btn {
   position: fixed;
   left: 20px;
@@ -1376,6 +1449,7 @@ a { text-decoration: none; color: inherit; }
   .modal-close { right: 12px; }
   .chooser__options { grid-template-columns: 1fr; }
   .chooser__card { padding: 36px 24px; }
+  .journey-grid { grid-template-columns: 1fr; }
 }
 
 /* ---------- Printed / PDF bill template ---------- */

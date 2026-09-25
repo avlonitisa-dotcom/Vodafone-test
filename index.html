@@ -9,10 +9,12 @@
 <body>
 
   <div class="chooser">
-    <div class="chooser__card">
+    <div class="chooser__card chooser__card--wide">
       <img src="vodafone-logo.png" width="52" height="52" alt="" class="chooser__logo">
       <h1 class="chooser__title">Vodafone × Snappi — Demo</h1>
       <p class="chooser__subtitle">Επίλεξε προβολή για την παρουσίαση</p>
+
+      <h2 class="chooser__section-title">Web &amp; Mobile</h2>
       <div class="chooser__options">
         <a href="web2.html" class="chooser__option">
           <span class="chooser__option-icon">🖥️</span>
@@ -29,36 +31,49 @@
           <span class="chooser__option-label">Mobile view</span>
           <span class="chooser__option-desc">Ροή μέσα από το My Vodafone app</span>
         </a>
-        <a href="journey.html" class="chooser__option">
-          <span class="chooser__option-icon">🎬</span>
-          <span class="chooser__option-label">Customer eShop Journey</span>
-          <span class="chooser__option-desc">Self-playing: αγορά συσκευής με Vodafone Flex</span>
-        </a>
-        <a href="journey2.html" class="chooser__option">
-          <span class="chooser__option-icon">🎬</span>
-          <span class="chooser__option-label">Customer eShop Journey — Μερικό Flex</span>
-          <span class="chooser__option-desc">Μισό ποσό με Flex, υπόλοιπο με κάρτα στη Vodafone</span>
-        </a>
-        <a href="journey3.html" class="chooser__option">
-          <span class="chooser__option-icon">🏬</span>
-          <span class="chooser__option-label">Journey — Κατάστημα</span>
-          <span class="chooser__option-desc">Animation: το shop journey, βήμα-βήμα με τη Snappi</span>
-        </a>
-        <a href="journey3-en.html" class="chooser__option">
-          <span class="chooser__option-icon">🏬</span>
-          <span class="chooser__option-label">Journey — In-Store (EN)</span>
-          <span class="chooser__option-desc">English version of the store journey animation</span>
-        </a>
-        <a href="journey4.html" class="chooser__option">
-          <span class="chooser__option-icon">💳</span>
-          <span class="chooser__option-label">Journey — Κατάστημα: Πληρωμή</span>
-          <span class="chooser__option-desc">Animation: πελάτης πληρώνει λογαριασμό & δόση Flex, μέσω SMS link</span>
-        </a>
-        <a href="journey4-en.html" class="chooser__option">
-          <span class="chooser__option-icon">💳</span>
-          <span class="chooser__option-label">Journey — In-Store Payment (EN)</span>
-          <span class="chooser__option-desc">English version of the in-store payment animation</span>
-        </a>
+      </div>
+
+      <h2 class="chooser__section-title">Self-playing Journeys</h2>
+      <div class="journey-grid">
+
+        <div class="journey-card">
+          <span class="journey-card__icon">🎬</span>
+          <h3 class="journey-card__title">Customer eShop Journey</h3>
+          <p class="journey-card__desc">Self-playing: αγορά συσκευής με Vodafone Flex, πλήρης χρηματοδότηση μέσω Snappi</p>
+          <div class="journey-card__links">
+            <a href="journey.html" class="journey-card__link">▶ Άνοιγμα</a>
+          </div>
+        </div>
+
+        <div class="journey-card">
+          <span class="journey-card__icon">🎬</span>
+          <h3 class="journey-card__title">Customer eShop Journey — Μερικό Flex</h3>
+          <p class="journey-card__desc">Μισό ποσό με Flex μέσω Snappi, υπόλοιπο με κάρτα στο περιβάλλον της Vodafone</p>
+          <div class="journey-card__links">
+            <a href="journey2.html" class="journey-card__link">▶ Άνοιγμα</a>
+          </div>
+        </div>
+
+        <div class="journey-card">
+          <span class="journey-card__icon">🏬</span>
+          <h3 class="journey-card__title">Journey — Κατάστημα</h3>
+          <p class="journey-card__desc">Animation: πελάτης αγοράζει νέα συσκευή με Flex, βήμα-βήμα με τη Snappi, με αφήγηση</p>
+          <div class="journey-card__links">
+            <a href="journey3.html" class="journey-card__link">🇬🇷 Ελληνικά</a>
+            <a href="journey3-en.html" class="journey-card__link">🇬🇧 English</a>
+          </div>
+        </div>
+
+        <div class="journey-card">
+          <span class="journey-card__icon">💳</span>
+          <h3 class="journey-card__title">Journey — Κατάστημα: Πληρωμή</h3>
+          <p class="journey-card__desc">Animation: πελάτης πληρώνει λογαριασμό &amp; δόση Flex μέσω SMS link, με προεπισκόπηση της πραγματικής σελίδας πληρωμής</p>
+          <div class="journey-card__links">
+            <a href="journey4.html" class="journey-card__link">🇬🇷 Ελληνικά</a>
+            <a href="journey4-en.html" class="journey-card__link">🇬🇧 English</a>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
